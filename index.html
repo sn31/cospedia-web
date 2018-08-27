@@ -11,9 +11,63 @@
   <body>
     <div class="container-fluid">
       <div class="navbar">
-        <button class="btn btn-warning" type="button">Sign Up</button>
-        <button class="btn btn-info" type="button">Sign In</button>
+        <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#signInModal">Sign In</button>
+        <button class="btn btn-danger" type="button" id="signOutButton">Sign Out</button>
       </div>
+      <div class="modal-container">
+        <!-- Sign In Modal -->
+        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <label for ="sign-up-email">E-mail: </label>
+                  <input class="form-control" type="email" name="sign-up-email"  />
+                  <label for ="sign-up-password">Password: </label>
+                  <input class="form-control" type="password" name="sign-up-password" />
+                  <label for ="sign-up-password-confirm">Confirm Password: </label>
+                  <input class="form-control" type="password" name="sign-up-password-confirm" />
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="registerButton">Register</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Sign In Modal-->
+        <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <label for ="sign-in-email">E-mail: </label>
+                  <input class="form-control" type="email" name="sign-in-email"  />
+                  <label for ="sign-in-password">Password: </label>
+                  <input class="form-control" type="password" name="sign-in-password" />
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="signInButton">Sign In</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="header-container">
         <div class="header-picture">
           <img src="img/logo.png" alt="Logo Picture" />
@@ -59,7 +113,19 @@
         </div>
         <div class="contact-container">
           <label for ="contact-name-input">Your Name(required)</label>
-          <input class="form-control" type="text" name="contact-name-input" />
+          <input class="form-control" type="text" name="contact-name-input"  />
+          <label for ="contact-email-input">Your Email(required)</label>
+          <input class="form-control" type="text" name="contact-email-input" />
+          <label for ="contact-subject-input">Subject</label>
+          <input class="form-control" type="text" name="contact-subject-input" />
+          <label for ="contact-message-input">Your Message</label>
+          <input class="form-control" type="text" name="contact-message-input" id="message-block" />
+          <button class="btn btn-outline-primary" type="button" id="contact-button">Send</button>
+        </div>
+        <div class="footer">
+          <p>
+            Copyright Skye Hyewon
+          </p>
         </div>
       </div>
     </div>
