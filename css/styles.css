@@ -22,6 +22,11 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   text-shadow: 2px 2px black;
+  padding: 25px;
+}
+
+h2 {
+  margin-bottom: 0px;
 }
 
 .about-container {
@@ -37,6 +42,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   text-shadow: 2px 2px black;
+  padding: 25px;
 }
 
 .features-container {
@@ -52,6 +58,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   text-shadow: 2px 2px black;
+  padding: 25px;
 }
 
 .contact-container {
@@ -67,6 +74,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   text-shadow: 2px 2px black;
+  padding: 25px;
 }
 
 .hiw-container {
