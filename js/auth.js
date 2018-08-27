@@ -54,8 +54,8 @@ $(document).ready (function() {
   })
   $("#signIn").submit(function(event) {
     event.preventDefault();
-    var email = $("#email").val();
-    var password = $("#password").val();
+    var email = $(".email").val();
+    var password = $(".password").val();
     var newUser = new User(email, password);
     console.log(newUser);
     newUser.signIn();
@@ -68,7 +68,7 @@ $(document).ready (function() {
 
   $("#forgotPassword").submit(function(event) {
     event.preventDefault();
-    var email = $("#email").val();
+    var email = $(".email").val();
     var newUser = new User(email);
     newUser.resetPassword();
   })

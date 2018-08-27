@@ -1,133 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <title>Cospedia</title>
-      <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-      <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
-      <script src="js/jquery-3.3.1.js"></script>
-      <script src="js/bootstrap.js"></script>
-      <script src="js/scripts.js"></script>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="navbar">
-        <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
-        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#signInModal">Sign In</button>
-        <button class="btn btn-danger" type="button" id="signOutButton">Sign Out</button>
-      </div>
-      <div class="modal-container">
-        <!-- Sign In Modal -->
-        <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <label for ="sign-up-email">E-mail: </label>
-                  <input class="form-control" type="email" name="sign-up-email"  />
-                  <label for ="sign-up-password">Password: </label>
-                  <input class="form-control" type="password" name="sign-up-password" />
-                  <label for ="sign-up-password-confirm">Confirm Password: </label>
-                  <input class="form-control" type="password" name="sign-up-password-confirm" />
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="registerButton">Register</button>
-              </div>
+
+<head>
+  <title>Cospedia</title>
+  <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+  <script src="js/jquery-3.3.1.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/scripts.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="navbar">
+      <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
+      <button class="btn btn-info" type="button" data-toggle="modal" data-target="#signInModal">Sign In</button>
+      <button class="btn btn-danger" type="button" id="signOutButton">Sign Out</button>
+    </div>
+    <div class="modal-container">
+      <!-- Sign Up Modal -->
+      <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
-        </div>
-        <!--Sign In Modal-->
-        <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <label for ="sign-in-email">E-mail: </label>
-                  <input class="form-control" type="email" name="sign-in-email"  />
-                  <label for ="sign-in-password">Password: </label>
-                  <input class="form-control" type="password" name="sign-in-password" />
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="signInButton">Sign In</button>
-              </div>
+            <div class="modal-body">
+              <form id="signUp">
+                <label for="sign-up-email">E-mail: </label>
+                <input id="email" class="form-control" type="email" name="sign-up-email" />
+                <label for="sign-up-password">Password: </label>
+                <input id="password" class="form-control" type="password" name="sign-up-password" />
+                <label for="sign-up-password-confirm">Confirm Password: </label>
+                <input id="passwordConf" class="form-control" type="password" name="sign-up-password-confirm" />
+                <br>
+                <button id="signUpButton" type="submit" class="btn btn-success">Sign Up</button>
+              </form>
             </div>
+
           </div>
         </div>
       </div>
-
-      <div class="header-container">
-        <div class="header-picture">
-          <img src="img/logo.png" alt="Logo Picture" />
-        </div>
-      </div>
-      <div class="image">
-        <div class="about-container">
-          <h2>ABOUT</h2>
-          <p>Cospedia is a virtual makeup bag that allows the users to keep track of their cosmetics products. The focus of Cospedia is the tracking of products' expiration dates.</p>
-        </div>
-        <div class="features-header">
-          <h2>FEATURES</h2>
-        </div>
-        <div class="features-container">
-          <p>With Cospedia, keeping track of your cosmetic products will never be easier! Current features include:</p>
-          <p>Website</p>
-          <ul>
-            <li>Users can add/remove/edit products to/from their personal bag.</li>
-            <li>The expiration dates of products are tracked on a graph.</li>
-            <li>A monthly summary will be sent to each user with remainders of upcoming expirations. </li>
-          </ul>
-          <p>iOS App</p>
-          <ul>
-            <li>Users can scan products to add them to their personal bag.</li>
-            <li>Users can add/remove/edit products to/from their personal bag.</li>
-            <li>The expiration dates of products are tracked on a graph.</li>
-            <li>A monthly summary will be sent to each user with remainders of upcoming expirations. </li>
-          </ul>
-        </div>
-        <div class="hiw-header">
-          <h2>HOW IT WORKS</h2>
-        </div>
-        <div class="hiw-container">
-          <p>Beauty Keeper is a stylish, easy to use and handy app for iPhone that tracks expiry dates of your beauty products, reminds you when it is time to replace them, and helps to determine production and best before dates encoded by manufacturer.
-
-  Reading the batch codes for more than 880 beauty brands.
-  Calculating the period of time when the item is safe to use after opening for 60 types of cosmetic products.
-  Automatic reminders about items near their expiry dates.
-  You can download Beauty Keeper for free on the App Store.</p>
-        </div>
-        <div class="contact-header">
-          <h2>CONTACT</h2>
-        </div>
-        <div class="contact-container">
-          <label for ="contact-name-input">Your Name(required)</label>
-          <input class="form-control" type="text" name="contact-name-input"  />
-          <label for ="contact-email-input">Your Email(required)</label>
-          <input class="form-control" type="text" name="contact-email-input" />
-          <label for ="contact-subject-input">Subject</label>
-          <input class="form-control" type="text" name="contact-subject-input" />
-          <label for ="contact-message-input">Your Message</label>
-          <input class="form-control" type="text" name="contact-message-input" id="message-block" />
-          <button class="btn btn-outline-primary" type="button" id="contact-button">Send</button>
-        </div>
-        <div class="footer">
-          <p>
-            Copyright Skye Hyewon
-          </p>
+      <!--Sign In Modal-->
+      <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="signIn">
+                <label for="sign-in-email">E-mail: </label>
+                <input class="form-control email" type="email" name="sign-in-email" />
+                <label for="sign-in-password password">Password: </label>
+                <input class="form-control" type="password" name="sign-in-password" />
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="signInButton">Sign In</button>
+              <button type="button" class="btn btn-primary" id="fogotPasswordButton">Forgot Password</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </body>
+
+    <div class="header-container">
+      <div class="header-picture">
+        <img src="img/logo.png" alt="Logo Picture" />
+      </div>
+    </div>
+    <div class="image">
+      <div class="about-container">
+        <h2>ABOUT</h2>
+        <p>Cospedia is a virtual makeup bag that allows the users to keep track of their cosmetics products. The focus of Cospedia
+          is the tracking of products' expiration dates.</p>
+      </div>
+      <div class="features-header">
+        <h2>FEATURES</h2>
+      </div>
+      <div class="features-container">
+        <p>With Cospedia, keeping track of your cosmetic products will never be easier! Current features include:</p>
+        <p>Website</p>
+        <ul>
+          <li>Users can add/remove/edit products to/from their personal bag.</li>
+          <li>The expiration dates of products are tracked on a graph.</li>
+          <li>A monthly summary will be sent to each user with remainders of upcoming expirations. </li>
+        </ul>
+        <p>iOS App</p>
+        <ul>
+          <li>Users can scan products to add them to their personal bag.</li>
+          <li>Users can add/remove/edit products to/from their personal bag.</li>
+          <li>The expiration dates of products are tracked on a graph.</li>
+          <li>A monthly summary will be sent to each user with remainders of upcoming expirations. </li>
+        </ul>
+      </div>
+      <div class="hiw-header">
+        <h2>HOW IT WORKS</h2>
+      </div>
+      <div class="hiw-container">
+        <p>Beauty Keeper is a stylish, easy to use and handy app for iPhone that tracks expiry dates of your beauty products,
+          reminds you when it is time to replace them, and helps to determine production and best before dates encoded by
+          manufacturer. Reading the batch codes for more than 880 beauty brands. Calculating the period of time when the
+          item is safe to use after opening for 60 types of cosmetic products. Automatic reminders about items near their
+          expiry dates. You can download Beauty Keeper for free on the App Store.</p>
+      </div>
+      <div class="contact-header">
+        <h2>CONTACT</h2>
+      </div>
+      <div class="contact-container">
+        <label for="contact-name-input">Your Name(required)</label>
+        <input class="form-control" type="text" name="contact-name-input" />
+        <label for="contact-email-input">Your Email(required)</label>
+        <input class="form-control" type="text" name="contact-email-input" />
+        <label for="contact-subject-input">Subject</label>
+        <input class="form-control" type="text" name="contact-subject-input" />
+        <label for="contact-message-input">Your Message</label>
+        <input class="form-control" type="text" name="contact-message-input" id="message-block" />
+        <button class="btn btn-outline-primary" type="button" id="contact-button">Send</button>
+      </div>
+      <div class="footer">
+        <p>
+          Copyright Skye Hyewon
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
