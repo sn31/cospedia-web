@@ -4,9 +4,6 @@
     <title>Cospedia</title>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/manageItems.css" rel="stylesheet" type="text/css" media="all" />
-    <script src="js/jquery-3.3.1.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/manageItems.js"></script>
 </head>
 <body>
     <div class="container">
@@ -22,7 +19,7 @@
                     <th scope="col">Delete</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="itemListBody">
                   <tr>
                     <th scope="row">1</th>
                     <td><a href="https://www.jomalone.com/product/3588/10066/fragrances/colognes/light-floral/red-roses/red-roses-cologne" target="_blank" class="itemTitleLink">Jo Malone Red Roses Cologne</a></td>
@@ -55,4 +52,21 @@
         </div>
     </div>
 </body>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCsXeeqQGEXp7WQAB7WU4blJmS0rCIAZaU",
+    authDomain: "makeup-genius-702f9.firebaseapp.com",
+    databaseURL: "https://makeup-genius-702f9.firebaseio.com",
+    projectId: "makeup-genius-702f9",
+    storageBucket: "makeup-genius-702f9.appspot.com",
+    messagingSenderId: "416277350179"
+  };
+  firebase.initializeApp(config);
+</script>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script> -->
+
+<script src="js/manageItems.js"></script>
 </html>
