@@ -41,9 +41,9 @@ User.prototype.resetPassword = function() {
 $(document).ready (function() {
   $("#signUp").submit(function(event) {
     event.preventDefault();
-    var email = $("#email").val();
-    var password = $("#password").val();
-    var passwordConf = $("#passwordConf").val()
+    var email = $("#emailSU").val();
+    var password = $("#passwordSU").val();
+    var passwordConf = $("#passwordConfSU").val()
 
     if (password !== passwordConf) {
       alert("Passwords don't match. Please verify!");
@@ -54,15 +54,15 @@ $(document).ready (function() {
   })
   $("#signIn").submit(function(event) {
     event.preventDefault();
-    var email = $(".email").val();
-    var password = $(".password").val();
+    var email = $("#emailSI").val();
+    var password = $("#passwordSI").val();
     var newUser = new User(email, password);
     console.log(newUser);
     newUser.signIn();
     alert("Signed in successfully!")
   })
 
-  $("#forgotPassButton").click(function() {
+  $("#forgotPasswordButton").click(function() {
     window.location.href = './forgotPassword.html'
   })
 
