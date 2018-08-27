@@ -31,6 +31,13 @@ User.prototype.signOut = function() {
     alert("Unable to sign out!")
   })
 }
+User.prototype.resetPassword = function() {
+  firebase.auth().sendPasswordResetEmail(this.email).then(function() {
+    alert("An email has been sent to you!");
+  }).catch(function(err) {
+    alert("Unable to reset password!")
+  })
+}
 $(document).ready (function() {
   $("#signUp").submit(function(event) {
     event.preventDefault();
@@ -57,5 +64,12 @@ $(document).ready (function() {
 
   $("#forgotPassButton").click(function() {
     window.location.href = './forgotPassword.html'
+  })
+
+  $("#forgotPassword").submit(function(event) {
+    event.preventDefault();
+    var email = $("#email").val();
+    var newUser = new User(email);
+    newUser.resetPassword();
   })
 })
