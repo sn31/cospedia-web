@@ -33,11 +33,11 @@
             <div class="modal-body">
               <form id="signUp">
                 <label for="sign-up-email">E-mail: </label>
-                <input id="emailSU"class="form-control" type="email" name="sign-up-email" />
+                <input id="emailSU" class="form-control" type="email" name="sign-up-email" />
                 <label for="sign-up-password">Password: </label>
-                <input id="passwordSU"class="form-control" type="password" name="sign-up-password" />
+                <input id="passwordSU" class="form-control" type="password" name="sign-up-password" />
                 <label for="sign-up-password-confirm">Confirm Password: </label>
-                <input id="passwordConfSU"class="form-control" type="password" name="sign-up-password-confirm" />
+                <input id="passwordConfSU" class="form-control" type="password" name="sign-up-password-confirm" />
                 <br>
                 <button id="signUpButton" type="submit" class="btn btn-success">Sign Up</button>
               </form>
@@ -59,11 +59,13 @@
             <div class="modal-body">
               <form id="signIn">
                 <label for="sign-in-email">E-mail: </label>
-                <input id="emailSI"class="form-control" type="email" name="sign-in-email" />
+                <input id="emailSI" class="form-control" type="email" name="sign-in-email" />
                 <label for="sign-in-password">Password: </label>
-                <input id="passwordSI"class="form-control" type="password" name="sign-in-password" /><br>
+                <input id="passwordSI" class="form-control" type="password" name="sign-in-password" />
+                <br>
                 <button type="submit" class="btn btn-primary" id="signInButton">Sign In</button>
-              </form><br>
+              </form>
+              <br>
               <button type="button" class="btn btn-primary" id="forgotPasswordButton" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password</button>
             </div>
           </div>
@@ -83,19 +85,14 @@
           <div class="modal-body">
             <form id="forgotPassword">
               <label for="forgot-password-email">E-mail: </label>
-              <input id="emailFP"class="form-control" type="email" name="forgot-password-email" /><br>
+              <input id="emailFP" class="form-control" type="email" name="forgot-password-email" />
+              <br>
               <button type="submit" class="btn btn-primary" id="resetPassword">Reset Password</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-   
-
-
-
     <div class="header-container">
       <div class="header-picture">
         <img src="img/logo.png" alt="Logo Picture" />
@@ -103,22 +100,33 @@
     </div>
     <div class="image">
       <div class="about-container">
+        <img src="img/make-up2.jpeg" alt="Makeup picture">
         <h2>ABOUT</h2>
         <p>Cospedia is a virtual makeup bag that allows the users to keep track of their cosmetics products. The focus of Cospedia
-          is the tracking of products' expiration dates.</p>
+          is the tracking of products' expiration dates. With a website and a handy app for the iOS, you can access Cospedia
+          wherever you are to keep your collection up to date.
+        </p>
+        <p>You can download Cospedia for free on the
+          <a href="">App Store!</a>
+        </p>
       </div>
       <div class="features-header">
         <h2>FEATURES</h2>
       </div>
       <div class="features-container">
+        <img src="img/how_it_works.png" alt="barcode scan picture">
         <p>With Cospedia, keeping track of your cosmetic products will never be easier! Current features include:</p>
-        <p>Website</p>
+        <p>
+          <strong>Website</strong>
+        </p>
         <ul>
           <li>Users can add/remove/edit products to/from their personal bag.</li>
           <li>The expiration dates of products are tracked on a graph.</li>
           <li>A monthly summary will be sent to each user with remainders of upcoming expirations. </li>
         </ul>
-        <p>iOS App</p>
+        <p>
+          <strong>iOS App</strong>
+        </p>
         <ul>
           <li>Users can scan products to add them to their personal bag.</li>
           <li>Users can add/remove/edit products to/from their personal bag.</li>
@@ -147,7 +155,7 @@
         <label for="contact-subject-input">Subject</label>
         <input class="form-control" type="text" name="contact-subject-input" />
         <label for="contact-message-input">Your Message</label>
-        <input class="form-control" type="text" name="contact-message-input" id="message-block" />
+        <textarea class="form-control" type="text" name="contact-message-input" id="message-block"></textarea>
         <button class="btn btn-outline-primary" type="button" id="contact-button">Send</button>
       </div>
       <div class="footer">
@@ -156,6 +164,7 @@
         </p>
       </div>
     </div>
+  </div>
   </div>
 </body>
 
