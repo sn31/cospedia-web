@@ -56,6 +56,6 @@ $(document).ready (function() {
   })
 
   $("#forgotPassButton").click(function() {
-    
+    window.location.href = './forgotPassword.html'
   })
 })
