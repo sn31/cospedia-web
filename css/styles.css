@@ -9,28 +9,46 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  border: 1px solid black;
+  /*border: 1px solid grey;*/
   margin-left: -15px;
   margin-right: -15px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .header-container {
   margin-top: 54px;
   margin-left: -15px;
   margin-right: -15px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-image: url(../img/logobg2.jpg);
   color: white;
   text-shadow: 2px 2px black;
   padding: 25px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.header-picture {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  margin: -25px;
+}
+
+.header-container img {
+  border-radius: 100%;
+  width: 20%;
+}
+
+p {
+  padding: 20px;
 }
 
 h2 {
   margin-bottom: 0px;
+  text-align: center;
 }
 
 .about-container {
-  border: 1px black solid;
+  border: 1px white solid;
   margin-left: -15px;
   margin-right: -15px;
   background-color: white;
@@ -46,7 +64,7 @@ h2 {
 }
 
 .features-container {
-  border: 1px black solid;
+  border: 1px white solid;
   margin-left: -15px;
   margin-right: -15px;
   background-color: white;
@@ -62,7 +80,7 @@ h2 {
 }
 
 .contact-container {
-  border: 1px black solid;
+  border: 1px white solid;
   margin-left: -15px;
   margin-right: -15px;
   background-color: white;
@@ -78,7 +96,7 @@ h2 {
 }
 
 .hiw-container {
-  border: 1px black solid;
+  border: 1px white solid;
   margin-left: -15px;
   margin-right: -15px;
   background-color: white;
