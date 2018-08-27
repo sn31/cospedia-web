@@ -14,14 +14,23 @@ function User(email,password) {
   this.password = password;
 }
 
-User.prototype.registerUser = function() {
+User.prototype.signUp = function() {
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (err) {
-    alert("Unable to Sign Up!")
+    alert("Unable to sign up!")
   })
 }
 
-User
+User.prototype.signIn = function() {
+  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(err) {
+    alert("Unable to sign in. Please verify email and password!")
+  })
+}
 
+User.prototype.signOut = function() {
+  firebase.auth().signOut().catch(function(err) {
+    alert("Unable to sign out!")
+  })
+}
 $(document).ready (function() {
   $("#signUp").submit(function(event) {
     event.preventDefault();
@@ -34,6 +43,19 @@ $(document).ready (function() {
     }
     else { var newUser = new User(email, password)};
     console.log(newUser);
-    newUser.registerUser();
+    newUser.signUp();
+  })
+  $("#signIn").submit(function(event) {
+    event.preventDefault();
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var newUser = new User(email, password);
+    console.log(newUser);
+    newUser.signIn();
+    alert("Signed in successfully!")
+  })
+
+  $("#forgotPassButton").click(function() {
+    
   })
 })
