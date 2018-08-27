@@ -63,12 +63,14 @@ $(document).ready (function() {
   })
 
   $("#forgotPasswordButton").click(function() {
-    window.location.href = './forgotPassword.html'
+    $("#signInModal").hide();
+    alert("I'm here!")
+    // window.location.href = './forgotPassword.html'
   })
 
   $("#forgotPassword").submit(function(event) {
     event.preventDefault();
-    var email = $(".email").val();
+    var email = $("#emailFP").val();
     var newUser = new User(email);
     newUser.resetPassword();
   })

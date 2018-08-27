@@ -64,12 +64,37 @@
                 <input id="passwordSI"class="form-control" type="password" name="sign-in-password" /><br>
                 <button type="submit" class="btn btn-primary" id="signInButton">Sign In</button>
               </form><br>
-              <button type="button" class="btn btn-primary" id="fogotPasswordButton">Forgot Password</button>
+              <button type="button" class="btn btn-primary" id="forgotPasswordButton" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="forgotPassword">
+              <label for="forgot-password-email">E-mail: </label>
+              <input id="emailFP"class="form-control" type="email" name="forgot-password-email" /><br>
+              <button type="submit" class="btn btn-primary" id="resetPassword">Reset Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   
+
+
 
     <div class="header-container">
       <div class="header-picture">

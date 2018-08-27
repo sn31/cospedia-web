@@ -140,3 +140,7 @@ label{
   color: white;
   padding-right: 0px;
 }
+
+#forgotPasswordModal {
+  display:none;
+}
