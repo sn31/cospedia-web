@@ -1,5 +1,7 @@
 # Cospedia - Virtual Product Organizer
 
+![alt text](https://i.imgur.com/yBag0Mp.png =100x)
+
 ##### Epicodus - Intro to Programming Team Project  - August, 2018.
 ##### Team Member: Skye Nguyen, Hyewon Cho, Meria Thomas and Ryan Lee.
 
@@ -62,4 +64,4 @@ https://sn31.github.io/cospedia-web
 
 ### License: MIT.
 
-#### Copyright (c) 2018 Skye Nguyen
+#### Copyright (c) 2018 Skye Nguyen, Hyewon Cho, Meria Thomas and Ryan Lee.
