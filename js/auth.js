@@ -31,13 +31,24 @@ User.prototype.signUp = function () {
       alert("Unable to sign up. Please try again!")
     })
 }
-var data  ={key: "testing"}
+var data  ={productsUPC:[]}
+
 User.prototype.signIn = function () {
   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
     $("#signInClose").click();
     $("#private").show();
     $("#public").hide();
-    firestore.collection("User").doc(firebase.auth().currentUser.uid).set(data);
+    var currentUID = firebase.auth().currentUser.uid;
+    // Only create a new UserID document for new users
+    var userRef = firestore.collection("User").doc(currentUID);
+    var getDoc = userRef.get()
+    .then (doc => {
+      if (!doc.exists) {
+        firestore.collection("User").doc(currentUID).set(data);
+      }
+    })
+    
+    
   })
     .catch(function (error) {
       var errorCode = error.code;
