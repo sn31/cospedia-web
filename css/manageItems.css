@@ -18,3 +18,52 @@
     width: 100px;
     height: auto;
 }
+
+body {
+    background-image: url(../img/logobg2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.icon-container {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 25%;
+    /* border: 1px solid black; */
+    overflow: auto;
+    /* background-image: radial-gradient(whitesmoke, grey); */
+    text-align: center;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+} 
+
+.icon-container img {
+    width: 80%;
+}
+
+.main-body {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding-top: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+}
+
+.main-body h1 {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#itemList, #editItem {
+    padding: 15px;
+}
+
+#menuBar {
+    margin:5px;
+}
