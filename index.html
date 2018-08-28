@@ -48,6 +48,9 @@
                 <button id="signUpButton" type="submit" class="btn btn-success">Sign Up</button>
               </form>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="signUpClose">Close</button>
+            </div>
 
           </div>
         </div>
@@ -71,8 +74,10 @@
                 <br>
                 <button type="submit" class="btn btn-primary" id="signInButton">Sign In</button>
               </form>
-              <br>
+            </div>
+            <div class="modal-footer">
               <button type="button" class="btn btn-primary" id="forgotPasswordButton" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="signInClose">Close</button>
             </div>
           </div>
         </div>
@@ -95,6 +100,9 @@
               <br>
               <button type="submit" class="btn btn-primary" id="resetPassword">Reset Password</button>
             </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="forgotPasswordClose">Close</button>
           </div>
         </div>
       </div>
@@ -155,15 +163,17 @@
       </div>
       <div class="contact-container">
         <img src="img/contact-pic.jpg" alt="Picture of makeup and keyboard">
-        <label for="contact-name-input">Your Name(required)</label>
-        <input class="form-control" type="text" name="contact-name-input" />
-        <label for="contact-email-input">Your Email(required)</label>
-        <input class="form-control" type="text" name="contact-email-input" />
-        <label for="contact-subject-input">Subject</label>
-        <input class="form-control" type="text" name="contact-subject-input" />
-        <label for="contact-message-input">Your Message</label>
-        <textarea class="form-control" type="text" name="contact-message-input" id="message-block"></textarea>
-        <button class="btn btn-outline-primary" type="button" id="contact-button">Send</button>
+        <form id="contact">
+            <label for="contact-name-input">Your Name</label>
+            <input id="contactName" class="form-control" type="text" name="contact-name-input" required/>
+            <label for="contact-email-input">Your Email</label>
+            <input id="contactEmail" class="form-control" type="text" name="contact-email-input" required/>
+            <label for="contact-subject-input">Subject</label>
+            <input id="contactSub" class="form-control" type="text" name="contact-subject-input" />
+            <label for="contact-message-input">Your Message</label>
+            <textarea id="contactMessage" class="form-control" type="text" name="contact-message-input" id="message-block" required></textarea><br>
+            <button class="btn btn-outline-primary" type="submit" id="contact-button">Send</button>
+        </form>
       </div>
       <div class="footer">
         <p>
