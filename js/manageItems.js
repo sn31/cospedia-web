@@ -7,10 +7,22 @@ firestore.settings(settings);
 
 var productsUPC;
 
+var firstLetterUpper = function(text) {
+    return text.substring(0, 1).toUpperCase()+text.substring(1, text.length);
+}
+
+var textFormatting = function(text) {
+    var textArr = text.toLowerCase().split(" ");
+    textArr = textArr.map(function(text) {
+        return firstLetterUpper(text);
+    });
+    return textArr.join(" ");
+}
+
 var writeBrandAndNameReturn = function(arr, i) {
     var writeBrandAndName = function(arr, i) {
         firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
-            $('#'+doc['id']+' .itemTitleLink').text(doc.data()['brand']+' '+doc.data()['name']);
+            $('#'+doc['id']+' .itemTitleLink').text(textFormatting(doc.data()['brand'])+' '+textFormatting(doc.data()['name']));
             $('#'+doc['id']+' .itemTitleLink').attr('href', doc.data()['url']); 
         });    
     };
@@ -27,7 +39,7 @@ var twoDigits = function(num) {
 
 var dateFormatting = function(date) {
     var year = date.getFullYear();
-    var month = twoDigits(date.getMonth());
+    var month = twoDigits(date.getMonth()+1);
     var date = twoDigits(date.getDate());
     return month+"-"+date+"-"+year;
 };
@@ -47,7 +59,7 @@ firestore.collection("User").doc(userID).get().then(function(doc) {
     for (var i=0; i<productsUPC.length; i++) {
         firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
             if (doc.exists) {
-                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><th scope="row">'+doc.data()["product"]['id']+'</th><td><a href="'+doc.data()["product"]['url']+'" target="_blank" class="itemTitleLink"></a></td><td>'+dateFormatting(doc.data()['purchaseDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="btn">Edit</button></td><td><button class="btn btn-danger">Delete</button></td></tr>');      
+                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><th scope="row">'+doc.data()["product"]['id']+'</th><td><a href="'+doc.data()["product"]['url']+'" target="_blank" class="itemTitleLink"></a></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="btn">Edit</button></td><td><button class="btn btn-danger">Delete</button></td></tr>');      
             }
         }).then(writeBrandAndNameReturn(productsUPC, i));
     }

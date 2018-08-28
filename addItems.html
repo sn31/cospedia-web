@@ -4,23 +4,71 @@
     <title>Cospedia</title>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/addItems.css" rel="stylesheet" type="text/css" media="all" />
-    <script src="js/jquery-3.3.1.js"></script>
-    <script src="js/addItems.js"></script>
 </head>
 <body>
     <div class="container">
         <form id="addItem">
             <div class="form-group">
+                <label for="upc">UPC: </label>
+                <input type="number" id="upc" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="brand">
+                    Brand: 
+                </label>
+                <input type="text" id="brand" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="name">
                     Item Name: 
                 </label>
-                <input type="text" class="form-control">
+                <input type="text" id="name" class="form-control">
             </div>
             <div class="form-group">
-                <label for="purchaseDate">
-                    Purchase Date: 
+                <label for="price">
+                    Price(USD):
                 </label>
-                <input type="date" id="purchaseDate" class="form-control">
+                <input type="number" id="price" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="category">
+                    Category: 
+                </label>
+                <select class="form-control" id="category">
+                    <option id="skincare">Skincare</option>
+                    <option id="makeup">Makeup</option>
+                    <option id="bathAndBody">Bath and Body</option>
+                    <option id="hair">Hair</option>
+                    <option id="fragrance">Fragrance</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="product_type">
+                    Product Type: 
+                </label>
+                <select class="form-control" id="product_type">
+                    <option value="cleansers">Cleansers</option>
+                    <option value="eyeCare">Eye Care</option>
+                    <option value="lipTreatments">Lip Treatments</option>
+                    <option value="masks">Masks</option>
+                    <option value="moisturizers">Moisturizers</option>
+                    <option value="selfTannersForFace">Self Tanners For Face</option>
+                    <option value="shaving">Shaving</option>
+                    <option value="sunCareForFace">Sun Care For Face</option>
+                    <option value="treatments">Treatments</option>        
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="size">
+                    Size: 
+                </label>
+                <input type="number" id="size" class="form-control" placeholder="If size is 3 oz, enter 3.">
+            </div>
+            <div class="form-group">
+                <label for="openingDate">
+                    Opened Date: 
+                </label>
+                <input type="date" id="openingDate" class="form-control">
             </div>
             <div class="form-group">
                 <label for="shelfLife">
@@ -34,4 +82,6 @@
         </form>
     </div>
 </body>
+<script src="js/jquery-3.3.1.js"></script>
+<script src="js/addItems.js"></script>
 </html>
