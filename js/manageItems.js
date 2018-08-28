@@ -11,6 +11,7 @@ var writeBrandAndNameReturn = function(arr, i) {
     var writeBrandAndName = function(arr, i) {
         firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
             $('#'+doc['id']+' .itemTitleLink').text(doc.data()['brand']+' '+doc.data()['name']);
+            $('#'+doc['id']+' .itemTitleLink').attr('href', doc.data()['url']); 
         });    
     };
     return writeBrandAndName(arr, i);
