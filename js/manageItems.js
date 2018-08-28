@@ -4,6 +4,11 @@ const firestore = firebase.firestore();
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 firestore.settings(settings);
 
+//Back to homepage button
+$("#backToHomePage").click(function() {
+    window.location.href = './index.html' 
+})
+
 var productsUPC;
 
 var firstLetterUpper = function(text) {
