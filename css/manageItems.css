@@ -81,3 +81,8 @@ body {
     margin-right: -15px;
     background-color: rgba(0, 0, 0, 0.5);
   }
+
+  #shelfLifeExample {
+    width: 100px;
+    height: auto;
+}
