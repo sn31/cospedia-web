@@ -70,8 +70,6 @@ $(document).ready(function () {
       $("#private").show();
       $("#public").hide();
       console.log(user);
-    } else {
-      alert("You have not signed in!")
     }})
   })
 
