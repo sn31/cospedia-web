@@ -14,9 +14,14 @@
 
 <body>
   <div class="container-fluid">
-    <div class="navbar">
+    <div class="navbar" id="public">
       <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
       <button class="btn btn-info" type="button" data-toggle="modal" data-target="#signInModal">Sign In</button>
+    </div>
+    <div class="navbar" id="private">
+      <button class="btn btn-warning" type="button" id="myProfile">My Profile</button>
+      <button class="btn btn-info" type="button" id="addItems">Add Item</button>
+      <button class="btn btn-danger" type="button" id="manageItems">Manage Items</button>
       <button class="btn btn-danger" type="button" id="signOutButton">Sign Out</button>
     </div>
     <div class="modal-container">
@@ -33,11 +38,11 @@
             <div class="modal-body">
               <form id="signUp">
                 <label for="sign-up-email">E-mail: </label>
-                <input id="emailSU" class="form-control" type="email" name="sign-up-email" />
+                <input id="emailSU" class="form-control" type="email" name="sign-up-email" required/>
                 <label for="sign-up-password">Password: </label>
-                <input id="passwordSU" class="form-control" type="password" name="sign-up-password" />
+                <input id="passwordSU" class="form-control" type="password" name="sign-up-password" required/>
                 <label for="sign-up-password-confirm">Confirm Password: </label>
-                <input id="passwordConfSU" class="form-control" type="password" name="sign-up-password-confirm" />
+                <input id="passwordConfSU" class="form-control" type="password" name="sign-up-password-confirm" required/>
                 <br>
                 <button id="signUpButton" type="submit" class="btn btn-success">Sign Up</button>
               </form>
@@ -59,9 +64,9 @@
             <div class="modal-body">
               <form id="signIn">
                 <label for="sign-in-email">E-mail: </label>
-                <input id="emailSI" class="form-control" type="email" name="sign-in-email" />
+                <input id="emailSI" class="form-control" type="email" name="sign-in-email" required/>
                 <label for="sign-in-password">Password: </label>
-                <input id="passwordSI" class="form-control" type="password" name="sign-in-password" />
+                <input id="passwordSI" class="form-control" type="password" name="sign-in-password" required/>
                 <br>
                 <button type="submit" class="btn btn-primary" id="signInButton">Sign In</button>
               </form>
@@ -85,7 +90,7 @@
           <div class="modal-body">
             <form id="forgotPassword">
               <label for="forgot-password-email">E-mail: </label>
-              <input id="emailFP" class="form-control" type="email" name="forgot-password-email" />
+              <input id="emailFP" class="form-control" type="email" name="forgot-password-email" required/>
               <br>
               <button type="submit" class="btn btn-primary" id="resetPassword">Reset Password</button>
             </form>

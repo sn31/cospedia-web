@@ -9,69 +9,88 @@ var config = {
 };
 firebase.initializeApp(config);
 
-function User(email,password) {
+function User(email, password) {
   this.email = email;
   this.password = password;
 }
 
-User.prototype.signUp = function() {
+User.prototype.signUp = function () {
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (err) {
     alert("Unable to sign up!")
   })
 }
 
-User.prototype.signIn = function() {
-  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(err) {
-    alert("Unable to sign in. Please verify email and password!")
+User.prototype.signIn = function () {
+  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (errorCode === "auth/wrong-password") {
+      alert("Wrong password.")
+    } else {
+      alert(errorMessage);
+    }
   })
 }
 
-User.prototype.signOut = function() {
-  firebase.auth().signOut().catch(function(err) {
+User.prototype.signOut = function () {
+  firebase.auth().signOut().catch(function (err) {
     alert("Unable to sign out!")
   })
 }
-User.prototype.resetPassword = function() {
-  firebase.auth().sendPasswordResetEmail(this.email).then(function() {
+User.prototype.resetPassword = function () {
+  firebase.auth().sendPasswordResetEmail(this.email).then(function () {
     alert("An email has been sent to you!");
-  }).catch(function(err) {
+  }).catch(function (err) {
     alert("Unable to reset password!")
   })
 }
-$(document).ready (function() {
-  $("#signUp").submit(function(event) {
+$(document).ready(function () {
+
+  $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
     var password = $("#passwordSU").val();
     var passwordConf = $("#passwordConfSU").val()
-
     if (password !== passwordConf) {
       alert("Passwords don't match. Please verify!");
     }
-    else { var newUser = new User(email, password)};
-    console.log(newUser);
+    else { var newUser = new User(email, password) };
     newUser.signUp();
   })
-  $("#signIn").submit(function(event) {
+  $("#signIn").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
-    console.log(newUser);
+
     newUser.signIn();
-    alert("Signed in successfully!")
+  //Check if the user is signed in
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      $("#private").show();
+      $("#public").hide();
+      console.log(user);
+    } else {
+      alert("You have not signed in!")
+    }})
   })
 
-  $("#forgotPasswordButton").click(function() {
+  // Forgot password
+  $("#forgotPasswordButton").click(function () {
     $("#signInModal").hide();
-    alert("I'm here!")
-    // window.location.href = './forgotPassword.html'
   })
 
-  $("#forgotPassword").submit(function(event) {
+  // Reset password
+  $("#forgotPassword").submit(function (event) {
     event.preventDefault();
     var email = $("#emailFP").val();
     var newUser = new User(email);
     newUser.resetPassword();
+  })
+
+  $("#signOutButton").click(function () {
+    $("#private").hide();
+    $("#public").show();
+    console.log(firebase.auth().currentUser);
   })
 })
