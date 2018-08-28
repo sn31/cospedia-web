@@ -9,6 +9,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// Initialize Cloud Firestore through Firebase
+const firestore = firebase.firestore();
+const settings = {/* your settings... */ timestampsInSnapshots: true };
+firestore.settings(settings);
+
+// Create User Constructor
 function User(email, password) {
   this.email = email;
   this.password = password;
@@ -21,19 +27,31 @@ User.prototype.signUp = function () {
     $("#private").show();
     $("#public").hide();
   })
-
     .catch(function (err) {
       alert("Unable to sign up. Please try again!")
     })
 }
-
+var userIDdata = { productsUPC: [""] }
+var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
     $("#signInClose").click();
     $("#private").show();
     $("#public").hide();
-    
+    var currentUID = firebase.auth().currentUser.uid;
+    // Only create a new UserID document for new users
+    var userRef = firestore.collection("User").doc(currentUID);
+    var getDoc = userRef.get()
+      .then(doc => {
+        if (!doc.exists) {
+          firestore.collection("User").doc(currentUID).set(userIDdata);
+          for (var i=0; i<userIDdata.productsUPC.length;i++) {
+          firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
+          }
+        }
+      })
   })
+
     .catch(function (error) {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -63,14 +81,7 @@ User.prototype.resetPassword = function () {
   })
 }
 $(document).ready(function () {
-  // firebase.auth().onAuthStateChanged(function(user) {
-  //   if (user) {
-  //     alert("You are already signed in")
-  //   } else {
-  //     alert("You have not signed in!")
-  //   }
-  //   console.log(user);
-  // })
+
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -87,7 +98,6 @@ $(document).ready(function () {
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
-
     newUser.signIn();
   })
 
