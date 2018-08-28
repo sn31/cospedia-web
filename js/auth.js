@@ -21,8 +21,14 @@ User.prototype.signUp = function() {
 }
 
 User.prototype.signIn = function() {
-  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(err) {
-    alert("Unable to sign in. Please verify email and password!")
+  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (errorCode === "auth/wrong-password") {
+      alert("Wrong password.")
+    } else {
+      alert(errorMessage);
+    }
   })
 }
 
@@ -59,13 +65,10 @@ $(document).ready (function() {
     var newUser = new User(email, password);
     console.log(newUser);
     newUser.signIn();
-    alert("Signed in successfully!")
   })
 
   $("#forgotPasswordButton").click(function() {
     $("#signInModal").hide();
-    alert("I'm here!")
-    // window.location.href = './forgotPassword.html'
   })
 
   $("#forgotPassword").submit(function(event) {
