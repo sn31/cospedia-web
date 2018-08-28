@@ -31,7 +31,7 @@ User.prototype.signUp = function () {
       alert("Unable to sign up. Please try again!")
     })
 }
-var userIDdata = { productsUPC: [] }
+var userIDdata = { productsUPC: [""] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
@@ -45,10 +45,9 @@ User.prototype.signIn = function () {
       .then(doc => {
         if (!doc.exists) {
           firestore.collection("User").doc(currentUID).set(userIDdata);
-          firestore.collection("User").doc(currentUID).collection("products").add(productFields);
-          // for (var i=0; i<userIDdata.productsUPC.length;i++) {
-          //   var productData = {userIDdata.productsUPC[i]:productFields}
-          //   console.log(userIDdata.productsUPC[i]);
+          for (var i=0; i<userIDdata.productsUPC.length;i++) {
+          firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set({ expirationDate: "", openingDate: "", product: "" });
+          }
         }
       })
   })
