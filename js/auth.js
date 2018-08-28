@@ -15,36 +15,38 @@ function User(email, password) {
 }
 
 User.prototype.signUp = function () {
-  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function() {
+  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function () {
     alert("You have signed up successfully!")
     $("#signUpClose").click();
     $("#private").show();
     $("#public").hide();
   })
-  
-  .catch(function (err) {
-    alert("Unable to sign up. Please try again!")
-  })
+
+    .catch(function (err) {
+      alert("Unable to sign up. Please try again!")
+    })
 }
 
 User.prototype.signIn = function () {
-  firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function(){
+  firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
     $("#signInClose").click();
-    alert("You have signed in successfully!")
+    $("#private").show();
+    $("#public").hide();
+    
   })
-  .catch(function (error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    if (errorCode === "auth/wrong-password") {
-      alert("Wrong password.")
-    } else {
-      alert(errorMessage);
-    }
-  })
+    .catch(function (error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if (errorCode === "auth/wrong-password") {
+        alert("Incorrect credentials. Please try again!")
+      } else {
+        alert(errorMessage);
+      }
+    })
 }
 
 User.prototype.signOut = function () {
-  firebase.auth().signOut().then(function() {
+  firebase.auth().signOut().then(function () {
     alert("You have signed out successfully!")
   }).catch(function (err) {
     alert("Unable to sign out!")
@@ -87,13 +89,6 @@ $(document).ready(function () {
     var newUser = new User(email, password);
 
     newUser.signIn();
-  //Check if the user is signed in
-    firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      $("#private").show();
-      $("#public").hide();
-      console.log(user);
-    }})
   })
 
   // Forgot password
