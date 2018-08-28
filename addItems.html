@@ -13,6 +13,10 @@
                 <input type="number" id="upc" class="form-control">
             </div>
             <div class="form-group">
+                <label for="url">Official Website Product Page URL: </label>
+                <input type="url" id="url" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="brand">
                     Brand: 
                 </label>
@@ -83,5 +87,18 @@
     </div>
 </body>
 <script src="js/jquery-3.3.1.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCsXeeqQGEXp7WQAB7WU4blJmS0rCIAZaU",
+    authDomain: "makeup-genius-702f9.firebaseapp.com",
+    databaseURL: "https://makeup-genius-702f9.firebaseio.com",
+    projectId: "makeup-genius-702f9",
+    storageBucket: "makeup-genius-702f9.appspot.com",
+    messagingSenderId: "416277350179"
+  };
+  firebase.initializeApp(config);
+</script>
 <script src="js/addItems.js"></script>
 </html>
