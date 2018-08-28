@@ -31,7 +31,7 @@ User.prototype.signUp = function () {
       alert("Unable to sign up. Please try again!")
     })
 }
-var userIDdata = { productsUPC: [""] }
+var userIDdata = { productsUPC: ["0"] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
