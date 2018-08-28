@@ -68,33 +68,66 @@ $("#category").change(function(){
 var editFunctionReturn = function(arr, i) {
     var editFunction = function(arr, i) {
         firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
-            $('#'+doc['id']+' button').first().click(function(){
-                $("#editItem").show();
-                $("#upc").val(doc['id']);
-                $("#brand").val(textFormatting(doc.data()['brand']));
-                $("#name").val(textFormatting(doc.data()['name']));
-                $("#shelfLife").val(doc.data()['shelfLife']);
+            $("#upc").val(doc['id']);
+            $("#brand").val(textFormatting(doc.data()['brand']));
+            $("#name").val(textFormatting(doc.data()['name']));
+            $("#shelfLife").val(doc.data()['shelfLife']);
 
-                $("#"+doc.data()['category']['id']).prop("selected", true);
-                updateProductTypeList();
-                console.log(doc.data());
-                $("#"+doc.data()['product_type']['id']).prop("selected", true);
-                
-                // firestore.collection("User").doc(userID).collection("products").doc(doc['id']).update(
-                //     brand: brand,
-                //     name: name,
-                //     openingDate: openingDate,
-                //     product_type: product_type,
-                //     shelfLife: shelfLife,
-                // ).then(function() {     
-                //     console.log("Document successfully edited!");
-                //     // window.location.reload(true);
-                // }).catch(function(error) {
-                //     console.error("Error editing document: ", error);
-                // });
+            $("#"+doc.data()['category']['id']).prop("selected", true);
+            updateProductTypeList();
+            $("#"+doc.data()['product_type']['id']).prop("selected", true);
+        }).then(function() {
+            firestore.collection("User").doc(userID).collection("products").doc($("#upc").val()).get().then(function(doc) {
+                $("#openingDate").val(dateFormatting(doc.data()['openingDate'].toDate()));
+            });
+        }).then(function(){
+            $('#'+arr[i]+' button').first().click(function(){
+                firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
+                    $("#upc").val(doc['id']);
+                    $("#brand").val(textFormatting(doc.data()['brand']));
+                    $("#name").val(textFormatting(doc.data()['name']));
+                    $("#shelfLife").val(doc.data()['shelfLife']);
+        
+                    $("#"+doc.data()['category']['id']).prop("selected", true);
+                    updateProductTypeList();
+                    $("#"+doc.data()['product_type']['id']).prop("selected", true);
+                }).then(function() {
+                    firestore.collection("User").doc(userID).collection("products").doc($("#upc").val()).get().then(function(doc) {
+                        $("#openingDate").val(dateFormatting(doc.data()['openingDate'].toDate()));
+                    });
+                }).then(function() {
+                    $("#editItem").show();
+                });
             });
         });
 
+        $("#editItem").submit(function(event){
+            event.preventDefault();
+            var upc = $("#upc").val();
+            var brand = $("#brand").val().trim().toLowerCase();
+            var name = $("#name").val().trim().toLowerCase();
+            var category = $("#category option:selected").attr("id");
+            var product_type = $("#product_type option:selected").attr("id");
+            var openingDate = new Date($("#openingDate").val());
+            openingDate.setHours(openingDate.getHours()+(new Date().getTimezoneOffset() / 60));
+            var shelfLife = parseInt($("#shelfLife").val());
+
+            firestore.collection("Product").doc(upc).update({
+                brand: brand,
+                name: name,
+                category: firestore.collection("Category").doc(category),
+                product_type: firestore.collection("Product Type").doc(product_type),
+                shelfLife: shelfLife,
+            }).then(function(){
+                firestore.collection("User").doc(userID).collection("products").doc(upc).update({
+                    openingDate: new Date(openingDate),
+                    expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife))
+                }).then(function() {
+                    console.log("update successful");
+                    window.location.reload(true);
+                });
+            }); 
+        });
     }
     return editFunction(arr, i);
 }
@@ -109,6 +142,7 @@ var deleteProductsUPCReturn = function(arr, i) {
             productsUPC: productsUPC,
         }).then(function(){
             console.log("delete productsUPC successful");
+            window.location.reload(true);
         });
     }
     return deleteProductsUPC(arr, i);
@@ -142,30 +176,45 @@ var dateFormatting = function(date) {
     var year = date.getFullYear();
     var month = twoDigits(date.getMonth()+1);
     var date = twoDigits(date.getDate());
-    return month+"-"+date+"-"+year;
+    return year+"-"+month+"-"+date;
 };
 
-const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
+// const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
 
-firestore.collection("User").doc(userID).get().then(function(doc) {
-    if (doc.exists) {
-        productsUPC = doc.data()["productsUPC"];
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-}).then(function() {
-    for (var i=0; i<productsUPC.length; i++) {
-        firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
+var userID = "";
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        authdata = user;
+        userID = firebase.auth().currentUser.uid;
+
+        firestore.collection("User").doc(userID).get().then(function(doc) {
             if (doc.exists) {
-                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
+                productsUPC = doc.data()["productsUPC"];
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
             }
-        }).then(writeBrandAndNameReturn(productsUPC, i))
-        .then(editFunctionReturn(productsUPC, i))
-        .then(deleteFunctionReturn(productsUPC, i));
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        }).then(function() {
+            for (var i=0; i<productsUPC.length; i++) {
+                firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
+                    if (doc.exists) {
+                        $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
+                    }
+                }).then(writeBrandAndNameReturn(productsUPC, i))
+                .then(editFunctionReturn(productsUPC, i))
+                .then(deleteFunctionReturn(productsUPC, i));
+            }
+        });
     }
+    else {
+        authdata = null;
+    }
+});
+
+
    
  //user email
  var userEmail = firebase.auth().currentUser.email;
@@ -179,7 +228,7 @@ firestore.collection("User").doc(userID).get().then(function(doc) {
 
 var displayName = showEmail(userEmail);
  $("#email-display").text(displayName);
-});
+
 
 // Start of "Add Items" functions
 var skincareOptions = '<option value="cleansers">Cleansers</option><option value="eyeCare">Eye Care</option><option value="lipTreatments">Lip Treatments</option><option value="masks">Masks</option><option value="moisturizers">Moisturizers</option><option value="selfTannersForFace">Self Tanners For Face</option><option value="shaving">Shaving</option><option value="sunCareForFace">Sun Care For Face</option><option value="treatments">Treatments</option>';

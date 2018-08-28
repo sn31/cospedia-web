@@ -1,8 +1,8 @@
-var skincareOptions = '<option value="cleansers">Cleansers</option><option value="eyeCare">Eye Care</option><option value="lipTreatments">Lip Treatments</option><option value="masks">Masks</option><option value="moisturizers">Moisturizers</option><option value="selfTannersForFace">Self Tanners For Face</option><option value="shaving">Shaving</option><option value="sunCareForFace">Sun Care For Face</option><option value="treatments">Treatments</option>';
-var makeupOptions = '<option value="cheek">Cheek</option><option value="eye">Eye</option><option value="face">Face</option><option value="lip">Lip</option>';   
-var hairOptions = '<option value="hairStylingAndTreatments">Hair Styling and Treatments</option><option value="shampooAndConditioner">Shampoo And Conditioner</option>'
-var fragranceOptions = '<option value="forMen">For men</option><option value="forWomen">For women</option><option value="unisex">Unisex</option>'
-var bathAndBodyOptions = '<option value="selfTannersForBody">Self Tanners For Body</option><option value="sunCareForBody">Sun Care For Body</option>'
+var skincareOptions = '<option id="cleansers" value="cleansers">Cleansers</option><option id="eyeCare" value="eyeCare">Eye Care</option><option id="lipTreatments" value="lipTreatments">Lip Treatments</option><option id="masks" value="masks">Masks</option><option id="moisturizers" value="moisturizers">Moisturizers</option><option id="selfTannersForFace" value="selfTannersForFace">Self Tanners For Face</option><option id="shaving" value="shaving">Shaving</option><option id="sunCareForFace" value="sunCareForFace">Sun Care For Face</option><option id="treatments" value="treatments">Treatments</option>';
+var makeupOptions = '<option id="cheek" value="cheek">Cheek</option><option id="eye" value="eye">Eye</option><option id="face" value="face">Face</option><option id="lip" value="lip">Lip</option>';   
+var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments">Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>'
+var fragranceOptions = '<option id="forMen" value="forMen">For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>'
+var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody">Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>'
 
 $("#category").change(function(){
     var selectedOption = $("#category option:selected").attr("id");
@@ -53,8 +53,8 @@ $("#addItem").submit(function(event) {
     var upc = $("#upc").val();
     var brand = $("#brand").val().trim().toLowerCase();
     var name = $("#name").val().trim().toLowerCase();
-    var category = $("#category option:selected").val();
-    var product_type = $("#product_type option:selected").val();
+    var category = $("#category option:selected").attr("id");
+    var product_type = $("#product_type option:selected").attr("id");
     var openingDate = new Date($("#openingDate").val());
     var shelfLife = parseInt($("#shelfLife").val());
 
@@ -92,7 +92,8 @@ $("#addItem").submit(function(event) {
                         expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife)),
                         product: firestore.collection("Product").doc(upc),
                     });
-                    console.log("Products add product success")
+                    console.log("Products add product success");
+                    window.location.href = "manageItems.html";
                 });
             }
             else {
