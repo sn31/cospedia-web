@@ -15,8 +15,14 @@ function User(email, password) {
 }
 
 User.prototype.signUp = function () {
-  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (err) {
-    alert("Unable to sign up!")
+  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function() {
+    alert("You have signed up successfully!")
+    $("#private").show();
+    $("#public").hide();
+  })
+  
+  .catch(function (err) {
+    alert("Unable to sign up. Please try again!")
   })
 }
 
@@ -33,10 +39,14 @@ User.prototype.signIn = function () {
 }
 
 User.prototype.signOut = function () {
-  firebase.auth().signOut().catch(function (err) {
+  firebase.auth().signOut().then(function() {
+    alert("You have signed out successfully!")
+  }).catch(function (err) {
     alert("Unable to sign out!")
   })
 }
+
+
 User.prototype.resetPassword = function () {
   firebase.auth().sendPasswordResetEmail(this.email).then(function () {
     alert("An email has been sent to you!");
@@ -77,7 +87,7 @@ $(document).ready(function () {
 
   // Forgot password
   $("#forgotPasswordButton").click(function () {
-    $("#signInModal").hide();
+    $("#signInModal").toggle();
   })
 
   // Reset password
