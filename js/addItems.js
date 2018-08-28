@@ -53,6 +53,7 @@ $("#addItem").submit(function(event) {
     var upc = $("#upc").val();
     var brand = $("#brand").val().trim().toLowerCase();
     var name = $("#name").val().trim().toLowerCase();
+    var category = $("#category option:selected").val();
     var product_type = $("#product_type option:selected").val();
     var openingDate = new Date($("#openingDate").val());
     var shelfLife = parseInt($("#shelfLife").val());
@@ -63,7 +64,8 @@ $("#addItem").submit(function(event) {
             firestore.collection("Product").doc(upc).set({
                 brand: brand, 
                 name: name,
-                product_type: firestore.collection("Product").doc(product_type),
+                category: firestore.collection("Category").doc(category),
+                product_type: firestore.collection("Product Type").doc(product_type),
                 shelfLife: shelfLife,
             })
             .then(function() {
