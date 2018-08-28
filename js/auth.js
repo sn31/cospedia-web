@@ -9,6 +9,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// Initialize Cloud Firestore through Firebase
+const firestore = firebase.firestore();
+const settings = {/* your settings... */ timestampsInSnapshots: true };
+firestore.settings(settings);
+
+// Create User Constructor
 function User(email, password) {
   this.email = email;
   this.password = password;
@@ -21,18 +27,17 @@ User.prototype.signUp = function () {
     $("#private").show();
     $("#public").hide();
   })
-
     .catch(function (err) {
       alert("Unable to sign up. Please try again!")
     })
 }
-
+var data  ={key: "testing"}
 User.prototype.signIn = function () {
   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
     $("#signInClose").click();
     $("#private").show();
     $("#public").hide();
-    
+    firestore.collection("User").doc(firebase.auth().currentUser.uid).set(data);
   })
     .catch(function (error) {
       var errorCode = error.code;
@@ -63,14 +68,7 @@ User.prototype.resetPassword = function () {
   })
 }
 $(document).ready(function () {
-  // firebase.auth().onAuthStateChanged(function(user) {
-  //   if (user) {
-  //     alert("You are already signed in")
-  //   } else {
-  //     alert("You have not signed in!")
-  //   }
-  //   console.log(user);
-  // })
+
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -87,7 +85,6 @@ $(document).ready(function () {
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
-
     newUser.signIn();
   })
 
