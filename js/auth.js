@@ -15,13 +15,24 @@ function User(email, password) {
 }
 
 User.prototype.signUp = function () {
-  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (err) {
-    alert("Unable to sign up!")
+  firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function() {
+    alert("You have signed up successfully!")
+    $("#signUpClose").click();
+    $("#private").show();
+    $("#public").hide();
+  })
+  
+  .catch(function (err) {
+    alert("Unable to sign up. Please try again!")
   })
 }
 
 User.prototype.signIn = function () {
-  firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function (error) {
+  firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function(){
+    $("#signInClose").click();
+    alert("You have signed in successfully!")
+  })
+  .catch(function (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
     if (errorCode === "auth/wrong-password") {
@@ -33,19 +44,31 @@ User.prototype.signIn = function () {
 }
 
 User.prototype.signOut = function () {
-  firebase.auth().signOut().catch(function (err) {
+  firebase.auth().signOut().then(function() {
+    alert("You have signed out successfully!")
+  }).catch(function (err) {
     alert("Unable to sign out!")
   })
 }
+
+
 User.prototype.resetPassword = function () {
   firebase.auth().sendPasswordResetEmail(this.email).then(function () {
+    $("#forgotPasswordClose").click();
     alert("An email has been sent to you!");
   }).catch(function (err) {
     alert("Unable to reset password!")
   })
 }
 $(document).ready(function () {
-
+  // firebase.auth().onAuthStateChanged(function(user) {
+  //   if (user) {
+  //     alert("You are already signed in")
+  //   } else {
+  //     alert("You have not signed in!")
+  //   }
+  //   console.log(user);
+  // })
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -75,7 +98,7 @@ $(document).ready(function () {
 
   // Forgot password
   $("#forgotPasswordButton").click(function () {
-    $("#signInModal").hide();
+    $("#signInModal").modal('hide');
   })
 
   // Reset password
@@ -89,6 +112,5 @@ $(document).ready(function () {
   $("#signOutButton").click(function () {
     $("#private").hide();
     $("#public").show();
-    console.log(firebase.auth().currentUser);
   })
 })
