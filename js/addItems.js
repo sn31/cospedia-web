@@ -51,13 +51,9 @@ var pushItem = function(arr, item) {
 $("#addItem").submit(function(event) {
     event.preventDefault();
     var upc = $("#upc").val();
-    var url = $("#url").val();
     var brand = $("#brand").val().trim().toLowerCase();
     var name = $("#name").val().trim().toLowerCase();
-    var price = parseInt($("#price").val());
-    var category = $("#category option:selected").val();
     var product_type = $("#product_type option:selected").val();
-    var size = parseInt($("#size").val());
     var openingDate = new Date($("#openingDate").val());
     var shelfLife = parseInt($("#shelfLife").val());
 
@@ -67,11 +63,8 @@ $("#addItem").submit(function(event) {
             firestore.collection("Product").doc(upc).set({
                 brand: brand, 
                 name: name,
-                price: price,
                 product_type: firestore.collection("Product").doc(product_type),
                 shelfLife: shelfLife,
-                size: size,
-                url: url,
             })
             .then(function() {
                 console.log("Product successfully written!");

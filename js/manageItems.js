@@ -59,7 +59,7 @@ firestore.collection("User").doc(userID).get().then(function(doc) {
     for (var i=0; i<productsUPC.length; i++) {
         firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
             if (doc.exists) {
-                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><th scope="row">'+doc.data()["product"]['id']+'</th><td><a href="'+doc.data()["product"]['url']+'" target="_blank" class="itemTitleLink"></a></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="btn">Edit</button></td><td><button class="btn btn-danger">Delete</button></td></tr>');      
+                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><th scope="row">'+doc.data()["product"]['id']+'</th><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="btn">Edit</button></td><td><button class="btn btn-danger">Delete</button></td></tr>');      
             }
         }).then(writeBrandAndNameReturn(productsUPC, i));
     }
