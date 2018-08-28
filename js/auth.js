@@ -65,6 +65,8 @@ $(document).ready (function() {
     var newUser = new User(email, password);
     console.log(newUser);
     newUser.signIn();
+    $("#private").show();
+    $("#public").hide();
   })
 
   $("#forgotPasswordButton").click(function() {

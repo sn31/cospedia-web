@@ -14,10 +14,15 @@
 
 <body>
   <div class="container-fluid">
-    <div class="navbar">
+    <div class="navbar" id="public">
       <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#signUpModal">Sign Up</button>
       <button class="btn btn-info" type="button" data-toggle="modal" data-target="#signInModal">Sign In</button>
-      <button class="btn btn-danger" type="button" id="signOutButton">Sign Out</button>
+    </div>
+    <div class="navbar" id="private">
+      <button class="btn btn-warning" type="button">My Profile</button>
+      <button class="btn btn-info" type="button">Add Item</button>
+      <button class="btn btn-danger" type="button">Manage Items</button>
+      <button class="btn btn-danger" type="button">Sign Out</button>
     </div>
     <div class="modal-container">
       <!-- Sign Up Modal -->

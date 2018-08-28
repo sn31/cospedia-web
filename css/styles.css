@@ -167,3 +167,7 @@ label{
   margin: 5px;
   padding: 10px;
 }
+
+#private {
+  display:none;
+}
