@@ -46,7 +46,7 @@ User.prototype.signIn = function () {
         if (!doc.exists) {
           firestore.collection("User").doc(currentUID).set(userIDdata);
           for (var i=0; i<userIDdata.productsUPC.length;i++) {
-          firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set({ expirationDate: "", openingDate: "", product: "" });
+          firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
           }
         }
       })
