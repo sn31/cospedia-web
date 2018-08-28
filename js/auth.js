@@ -87,7 +87,7 @@ $(document).ready(function () {
 
   // Forgot password
   $("#forgotPasswordButton").click(function () {
-    $("#signInModal").toggle();
+    $("#signInModal").modal('hide');
   })
 
   // Reset password
