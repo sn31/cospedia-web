@@ -48,6 +48,7 @@ h2 {
   margin-bottom: 0px;
   text-align: center;
   font-size: 35px;
+  font-weight: bold;
 }
 
 .about-container {
@@ -56,6 +57,7 @@ h2 {
   margin-right: -15px;
   background-color: white;
   overflow: auto;
+  box-shadow: 8px 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
 }
 
 .about-container h2 {
