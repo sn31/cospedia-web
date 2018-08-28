@@ -23,6 +23,7 @@ var userIDdata = { productsUPC: ["0"] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 
 User.prototype.signUp = function () {
+  
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function () {
     alert("You have signed up successfully!")
     $("#signUpClose").click();
@@ -41,7 +42,8 @@ User.prototype.signUp = function () {
 var userIDdata = { productsUPC: ["0"] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
-  firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
+  
+  return firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
     $("#signInClose").click();
     $("#private").show();
     $("#public").hide();
@@ -58,7 +60,6 @@ User.prototype.signIn = function () {
         }
       })
   })
-
     .catch(function (error) {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -88,7 +89,7 @@ User.prototype.resetPassword = function () {
   })
 }
 $(document).ready(function () {
-
+  
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -105,7 +106,9 @@ $(document).ready(function () {
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
+    
     newUser.signIn();
+  
   })
 
   // Forgot password
@@ -125,4 +128,5 @@ $(document).ready(function () {
     $("#private").hide();
     $("#public").show();
   })
+
 })
