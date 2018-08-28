@@ -19,6 +19,8 @@ function User(email, password) {
   this.email = email;
   this.password = password;
 }
+var userIDdata = { productsUPC: ["0"] }
+var productFields = { expirationDate: "", openingDate: "", product: "" }
 
 User.prototype.signUp = function () {
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function () {
@@ -26,6 +28,11 @@ User.prototype.signUp = function () {
     $("#signUpClose").click();
     $("#private").show();
     $("#public").hide();
+    var currentUID = firebase.auth().currentUser.uid;
+      firestore.collection("User").doc(currentUID).set(userIDdata);
+      for (var i = 0; i < userIDdata.productsUPC.length; i++) {
+        firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
+    }
   })
     .catch(function (err) {
       alert("Unable to sign up. Please try again!")
@@ -45,8 +52,8 @@ User.prototype.signIn = function () {
       .then(doc => {
         if (!doc.exists) {
           firestore.collection("User").doc(currentUID).set(userIDdata);
-          for (var i=0; i<userIDdata.productsUPC.length;i++) {
-          firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
+          for (var i = 0; i < userIDdata.productsUPC.length; i++) {
+            firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
           }
         }
       })
