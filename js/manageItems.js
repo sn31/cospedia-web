@@ -174,27 +174,42 @@ var dateFormatting = function(date) {
     return year+"-"+month+"-"+date;
 };
 
-const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
+// const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
 
-firestore.collection("User").doc(userID).get().then(function(doc) {
-    if (doc.exists) {
-        productsUPC = doc.data()["productsUPC"];
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-}).then(function() {
-    for (var i=0; i<productsUPC.length; i++) {
-        firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
+var userID = "";
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        authdata = user;
+        userID = firebase.auth().currentUser.uid;
+
+        firestore.collection("User").doc(userID).get().then(function(doc) {
             if (doc.exists) {
-                $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
+                productsUPC = doc.data()["productsUPC"];
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
             }
-        }).then(writeBrandAndNameReturn(productsUPC, i))
-        .then(editFunctionReturn(productsUPC, i))
-        .then(deleteFunctionReturn(productsUPC, i));
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        }).then(function() {
+            for (var i=0; i<productsUPC.length; i++) {
+                firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
+                    if (doc.exists) {
+                        $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
+                    }
+                }).then(writeBrandAndNameReturn(productsUPC, i))
+                .then(editFunctionReturn(productsUPC, i))
+                .then(deleteFunctionReturn(productsUPC, i));
+            }
+        });
     }
+    else {
+        authdata = null;
+    }
+});
+
+
    
  //user email
  var userEmail = firebase.auth().currentUser.email;
@@ -208,5 +223,5 @@ firestore.collection("User").doc(userID).get().then(function(doc) {
 
 var displayName = showEmail(userEmail);
  $("#email-display").text(displayName);
-});
+
 
