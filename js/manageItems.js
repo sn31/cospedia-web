@@ -119,6 +119,7 @@ var editFunctionReturn = function(arr, i) {
                     expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife))
                 }).then(function() {
                     console.log("update successful");
+                    window.location.reload(true);
                 });
             }); 
         });
@@ -136,6 +137,7 @@ var deleteProductsUPCReturn = function(arr, i) {
             productsUPC: productsUPC,
         }).then(function(){
             console.log("delete productsUPC successful");
+            window.location.reload(true);
         });
     }
     return deleteProductsUPC(arr, i);
