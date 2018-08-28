@@ -9,10 +9,13 @@
     <script src="js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
+        <div class="navbar" id="private">
+            <button class="btn btn-primary" type="button" id="signOutButton">Sign Out</button>
+        </div>
         <div class="icon-container">
             <img src="img/lady.png" alt="Lady Profile" />
-           <h1>*USER NAME*</h1>
+           <h5><span id="email-display"></span></h5>
         </div>
         <div class="main-body">
             <h1>Manage your items here:</h1>

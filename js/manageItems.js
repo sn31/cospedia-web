@@ -161,4 +161,18 @@ firestore.collection("User").doc(userID).get().then(function(doc) {
         .then(editFunctionReturn(productsUPC, i))
         .then(deleteFunctionReturn(productsUPC, i));
     }
+   
+ //user email
+ var userEmail = firebase.auth().currentUser.email;
+
+ //Function to take out everything after "@" in e-mail.
+ function showEmail(string) {
+    var indexNumber = string.indexOf("@");
+    var newString = string.slice(0, indexNumber);
+    return newString;
+ }
+
+var displayName = showEmail(userEmail);
+ $("#email-display").text(displayName);
 });
+
