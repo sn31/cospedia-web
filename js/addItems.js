@@ -26,7 +26,7 @@ $("#category").change(function(){
     $("#product_type").append(options);
 });
 
-const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
+// const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
 
 // Initialize Cloud Firestore through Firebase
 
@@ -36,69 +36,84 @@ firestore.settings(settings);
 
 var productsUPC;
 
-firestore.collection("User").doc(userID).get().then(function(doc){
-    if (doc.exists) {
-        productsUPC = doc.data()['productsUPC'];
-    }
-});
-
 var pushItem = function(arr, item) {
+    if (arr[0] === 0) {
+        arr = [];
+    }
     arr.push(item);
     return arr;
 }
 
+var userID="";
 
-$("#addItem").submit(function(event) {
-    event.preventDefault();
-    var upc = $("#upc").val();
-    var brand = $("#brand").val().trim().toLowerCase();
-    var name = $("#name").val().trim().toLowerCase();
-    var category = $("#category option:selected").attr("id");
-    var product_type = $("#product_type option:selected").attr("id");
-    var openingDate = new Date($("#openingDate").val());
-    var shelfLife = parseInt($("#shelfLife").val());
-
-    //search existing db with upc
-    firestore.collection("Product").doc(upc).get().then(function(doc){
-        if (!doc.exists) {
-            firestore.collection("Product").doc(upc).set({
-                brand: brand, 
-                name: name,
-                category: firestore.collection("Category").doc(category),
-                product_type: firestore.collection("Product Type").doc(product_type),
-                shelfLife: shelfLife,
-            })
-            .then(function() {
-                console.log("Product successfully written!");
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
-            });
-        }
-    }).then(function(){
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        authdata = user;
+        userID = firebase.auth().currentUser.uid;
         firestore.collection("User").doc(userID).get().then(function(doc){
             if (doc.exists) {
-                firestore.collection("User").doc(userID).update({
-                    productsUPC: pushItem(productsUPC, parseInt(upc)),
-                }).then(function() {
-                    console.log("ProductsUPC add product success");
-                })
-                .catch(function(error) {
-                    console.error("Error writing document: ", error);
-                })
-                .then(function () {
-                    firestore.collection("User").doc(userID).collection("products").doc(upc).set({
-                        openingDate: new Date(openingDate),
-                        expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife)),
-                        product: firestore.collection("Product").doc(upc),
-                    });
-                    console.log("Products add product success");
-                    window.location.href = "manageItems.html";
-                });
-            }
-            else {
-                console.log("cannot find user");
+                productsUPC = doc.data()['productsUPC'];
             }
         });
-    });
+        $("#addItem").submit(function(event) {
+            event.preventDefault();
+            var upc = $("#upc").val();
+            var brand = $("#brand").val().trim().toLowerCase();
+            var name = $("#name").val().trim().toLowerCase();
+            var category = $("#category option:selected").attr("id");
+            var product_type = $("#product_type option:selected").attr("id");
+            var openingDate = new Date($("#openingDate").val());
+            var shelfLife = parseInt($("#shelfLife").val());
+        
+            //search existing db with upc
+            firestore.collection("Product").doc(upc).get().then(function(doc){
+                if (!doc.exists) {
+                    firestore.collection("Product").doc(upc).set({
+                        brand: brand, 
+                        name: name,
+                        category: firestore.collection("Category").doc(category),
+                        product_type: firestore.collection("Product Type").doc(product_type),
+                        shelfLife: shelfLife,
+                    })
+                    .then(function() {
+                        console.log("Product successfully written!");
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
+                }
+            }).then(function(){
+                firestore.collection("User").doc(userID).get().then(function(doc){
+                    if (doc.exists) {
+                        firestore.collection("User").doc(userID).update({
+                            productsUPC: pushItem(productsUPC, parseInt(upc)),
+                        }).then(function() {
+                            console.log("ProductsUPC update success");
+                        })
+                        .catch(function(error) {
+                            console.error("Error writing document: ", error);
+                        })
+                        .then(function () {
+                            firestore.collection("User").doc(userID).collection("products").doc("0").delete().then(function(){
+                                console.log("delete placeholder doc in User:products");
+                                firestore.collection("User").doc(userID).collection("products").doc(upc).set({
+                                    openingDate: new Date(openingDate),
+                                    expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife)),
+                                    product: firestore.collection("Product").doc(upc),
+                                });
+                                console.log("Products add product success");
+                                window.location.href = "manageItems.html";
+                            });
+                        });
+                    }
+                    else {
+                        console.log("cannot find user");
+                    }
+                });
+            });
+        });
+    }
+    else {
+        authdata = null;
+    }
 });

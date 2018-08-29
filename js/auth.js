@@ -23,42 +23,39 @@ var userIDdata = { productsUPC: ["0"] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 
 User.prototype.signUp = function () {
-
+  
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function () {
     alert("You have signed up successfully!")
     $("#signUpClose").click();
+    $("#private").show();
+    $("#public").hide();
     var currentUID = firebase.auth().currentUser.uid;
     firestore.collection("User").doc(currentUID).set(userIDdata);
-    for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-      firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-    }
+    firestore.collection("User").doc(currentUID).collection("products").doc("0").set(productFields);
   })
     .catch(function (err) {
       alert("Unable to sign up. Please try again!")
     })
 }
-var userIDdata = { productsUPC: ["0"] }
+var userIDdata = { productsUPC: [0] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
-  var self = this;
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-    .then(function () {
-      return firebase.auth().signInWithEmailAndPassword(self.email, self.password).then(function () {
-        $("#signInClose").click();
-        var currentUID = firebase.auth().currentUser.uid;
-        // Only create a new UserID document for new users
-        var userRef = firestore.collection("User").doc(currentUID);
-        var getDoc = userRef.get()
-          .then(doc => {
-            if (!doc.exists) {
-              firestore.collection("User").doc(currentUID).set(userIDdata);
-              for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-                firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-              }
-            }
-          })
+  
+  return firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function () {
+    $("#signInClose").click();
+    $("#private").show();
+    $("#public").hide();
+    var currentUID = firebase.auth().currentUser.uid;
+    // Only create a new UserID document for new users
+    var userRef = firestore.collection("User").doc(currentUID);
+    var getDoc = userRef.get()
+      .then(doc => {
+        if (!doc.exists) {
+          firestore.collection("User").doc(currentUID).set(userIDdata);
+          firestore.collection("User").doc(currentUID).collection("products").doc("0").set(productFields);
+        }
       })
-    })
+  })
     .catch(function (error) {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -68,15 +65,15 @@ User.prototype.signIn = function () {
         alert(errorMessage);
       }
     })
-};
+}
 
-var signOut = function () {
+User.prototype.signOut = function () {
   firebase.auth().signOut().then(function () {
     alert("You have signed out successfully!")
   }).catch(function (err) {
     alert("Unable to sign out!")
   })
-};
+}
 
 
 User.prototype.resetPassword = function () {
@@ -88,16 +85,7 @@ User.prototype.resetPassword = function () {
   })
 }
 $(document).ready(function () {
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      $("#private").show();
-      $("#public").hide();
-    }
-    else {
-      $("#private").hide();
-      $("#public").show();
-    }
-  });
+  
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -114,9 +102,9 @@ $(document).ready(function () {
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
-
+    
     newUser.signIn();
-
+  
   })
 
   // Forgot password
@@ -133,7 +121,8 @@ $(document).ready(function () {
   })
 
   $("#signOutButton").click(function () {
-    signOut();
+    $("#private").hide();
+    $("#public").show();
   })
 
 })
