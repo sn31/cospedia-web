@@ -28,6 +28,7 @@ body {
   padding: 25px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.2);
+
 }
 
 .header-picture {
@@ -130,7 +131,6 @@ h2 {
   margin-right: -15px;
   background-color: white;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
-  overflow: auto;
 }
 
 .hiw-container ul {
@@ -199,16 +199,22 @@ label{
 
 #HIWIndicators {
   /* height: 50%; */
-  width: 50%;
+  width: 90%;
   display: block;
-  margin: 0 auto;
+  margin-left: 20px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#instructionList {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .carousel-item img {
-  width: auto;
+  width: 100%;
   height: 280px;
   max-height: 280px;
 }
