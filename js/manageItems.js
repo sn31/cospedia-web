@@ -181,13 +181,27 @@ var dateFormatting = function(date) {
 
 // const userID = "idwlRVNg5aWrK1KNd4MPz3unSgC3";
 
-var userID = "";
+ //Function to take out everything after "@" in e-mail.
+ function showEmail(string) {
+    var indexNumber = string.indexOf("@");
+    var newString = string.slice(0, indexNumber);
+    return newString;
+ }
 
+
+ 
+
+var userID = "";
+var userEmail ="";
+var displayName ="";
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         authdata = user;
         userID = firebase.auth().currentUser.uid;
-
+        userEmail = firebase.auth().currentUser.email;
+        displayName = showEmail(userEmail);
+        $("#email-display").text(displayName);
+        
         $(".category_add").change(function() {
             updateProductTypeList("add");
         });
@@ -304,15 +318,3 @@ $(document).ready(function() {
       })
 })
 
-//  //user email
-//  var userEmail = firebase.auth().currentUser.email;
-
-//  //Function to take out everything after "@" in e-mail.
-//  function showEmail(string) {
-//     var indexNumber = string.indexOf("@");
-//     var newString = string.slice(0, indexNumber);
-//     return newString;
-//  }
-
-// var displayName = showEmail(userEmail);
-//  $("#email-display").text(displayName);
