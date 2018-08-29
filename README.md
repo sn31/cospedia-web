@@ -11,6 +11,8 @@ A web application that allows the user to keep track of a variety of cosmetic pr
 
 ## Current Features
 
+* Each user can create a personal account which allows them to access their data from anywhere, including the iOS app.
+* Users can reset their passwords.
 * Users can add/remove/edit products to/from their personal bag.
 * Calculates recommended expiration dates based on their opened date.
 
