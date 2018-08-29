@@ -199,13 +199,18 @@ label{
 
 #HIWIndicators {
   /* height: 50%; */
-  width: 90%;
+  width: 100%;
   display: block;
   margin-left: 20px;
+  border: 1px solid black;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.rounded-img {
+  border-radius: 8px;
 }
 
 #instructionList {
@@ -239,3 +244,6 @@ label{
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#861d41' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
 
+.carousel-caption {
+  bottom: -15px;
+}
