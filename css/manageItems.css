@@ -68,6 +68,15 @@ body {
 #menuBar {
     margin:5px;
     margin-right: 27px;
+    position: relative;
+}
+
+#addItemButton {
+    position: absolute;
+    right: 1px;
+    top: 5px;
+    width: 10%;
+    font-size: 20px;
 }
 
 .navbar {
