@@ -18,16 +18,6 @@ var textFormatting = function(text) {
     return textArr.join(" ");
 }
 
-var writeBrandAndNameReturn = function(arr, i) {
-    var writeBrandAndName = function(arr, i) {
-        firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
-            $('#'+doc['id']+' .itemTitleLink').text(textFormatting(doc.data()['brand'])+' '+textFormatting(doc.data()['name']));
-            $('#'+doc['id']+' .itemTitleLink').attr('href', doc.data()['url']); 
-        });
-    };
-    return writeBrandAndName(arr, i);
-}
-
 var skincareOptions = '<option id="cleansers" value="cleansers">Cleansers</option><option id="eyeCare" value="eyeCare">Eye Care</option><option id="lipTreatments" value="lipTreatments">Lip Treatments</option><option id="masks" value="masks">Masks</option><option id="moisturizers" value="moisturizers">Moisturizers</option><option id="selfTannersForFace" value="selfTannersForFace">Self Tanners For Face</option><option id="shaving" value="shaving">Shaving</option><option id="sunCareForFace" value="sunCareForFace">Sun Care For Face</option><option id="treatments" value="treatments">Treatments</option>';
 var makeupOptions = '<option id="cheek" value="cheek">Cheek</option><option id="eye" value="eye">Eye</option><option id="face" value="face">Face</option><option id="lip" value="lip">Lip</option>';   
 var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments">Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>'
@@ -59,6 +49,16 @@ var updateProductTypeList = function() {
 $("#category").change(function(){
     updateProductTypeList();
 });
+
+var writeBrandAndNameReturn = function(arr, i) {
+    var writeBrandAndName = function(arr, i) {
+        firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
+            $('#'+doc['id']+' .itemTitleLink').text(textFormatting(doc.data()['brand'])+' '+textFormatting(doc.data()['name']));
+            $('#'+doc['id']+' .itemTitleLink').attr('href', doc.data()['url']); 
+        });
+    };
+    return writeBrandAndName(arr, i);
+}
 
 var editFunctionReturn = function(arr, i) {
     var editFunction = function(arr, i) {
@@ -185,7 +185,12 @@ firebase.auth().onAuthStateChanged(function(user) {
 
         firestore.collection("User").doc(userID).get().then(function(doc) {
             if (doc.exists) {
-                productsUPC = doc.data()["productsUPC"];
+                if (doc.data()['productsUPC'][0] === "0") {
+                    productsUPC = [];
+                }
+                else {
+                    productsUPC = doc.data()["productsUPC"];
+                }
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");

@@ -30,16 +30,14 @@ User.prototype.signUp = function () {
     $("#private").show();
     $("#public").hide();
     var currentUID = firebase.auth().currentUser.uid;
-      firestore.collection("User").doc(currentUID).set(userIDdata);
-      for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-        firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-    }
+    firestore.collection("User").doc(currentUID).set(userIDdata);
+    firestore.collection("User").doc(currentUID).collection("products").doc("0").set(productFields);
   })
     .catch(function (err) {
       alert("Unable to sign up. Please try again!")
     })
 }
-var userIDdata = { productsUPC: ["0"] }
+var userIDdata = { productsUPC: [0] }
 var productFields = { expirationDate: "", openingDate: "", product: "" }
 User.prototype.signIn = function () {
   
@@ -54,9 +52,7 @@ User.prototype.signIn = function () {
       .then(doc => {
         if (!doc.exists) {
           firestore.collection("User").doc(currentUID).set(userIDdata);
-          for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-            firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-          }
+          firestore.collection("User").doc(currentUID).collection("products").doc("0").set(productFields);
         }
       })
   })
