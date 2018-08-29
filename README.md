@@ -7,7 +7,13 @@
 
 ## Description
 
-A web application that allows the user to keep track of a variety of cosmetic products by visualizing the expiration dates using graphs.
+When was the last time you replaced your mascara? 
+
+Did you know that nearly 80% of expired mascaras tested in a study contained **staph bacteria**?
+
+Cospedia is here to help! 
+
+It is a web application that allows the users to keep track of a variety of cosmetic products and their expiration dates. 
 
 ## Current Features
 
