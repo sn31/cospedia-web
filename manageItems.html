@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Cospedia - Manage Items</title>
     <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/manageItems.css" rel="stylesheet" type="text/css" media="all" />
     <script src="js/jquery-3.3.1.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+    <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCsXeeqQGEXp7WQAB7WU4blJmS0rCIAZaU",
+                authDomain: "makeup-genius-702f9.firebaseapp.com",
+                databaseURL: "https://makeup-genius-702f9.firebaseio.com",
+                projectId: "makeup-genius-702f9",
+                storageBucket: "makeup-genius-702f9.appspot.com",
+                messagingSenderId: "416277350179"
+            };
+            firebase.initializeApp(config);
+        </script>
+    <script src="js/manageItems.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/bootstrap.js"></script>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="navbar" id="private">
@@ -16,7 +33,9 @@
         </div>
         <div class="icon-container">
             <img src="img/lady.png" alt="Lady Profile" />
-           <h5><span id="email-display"></span></h5>
+            <h5>
+                <span id="email-display"></span>
+            </h5>
         </div>
         <div class="modal-container">
             <!--Modal for 'Add Items'-->
@@ -26,7 +45,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="addItemModalLabel">Add Item</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -39,19 +58,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="brand">
-                                        Brand: 
+                                        Brand:
                                     </label>
                                     <input type="text" id="brand" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">
-                                        Item Name: 
+                                        Item Name:
                                     </label>
                                     <input type="text" id="name" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="category">
-                                        Category: 
+                                        Category:
                                     </label>
                                     <select class="form-control" id="category">
                                         <option id="skincare">Skincare</option>
@@ -63,7 +82,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product_type">
-                                        Product Type: 
+                                        Product Type:
                                     </label>
                                     <select class="form-control" id="product_type">
                                         <option value="cleansers">Cleansers</option>
@@ -74,12 +93,12 @@
                                         <option value="selfTannersForFace">Self Tanners For Face</option>
                                         <option value="shaving">Shaving</option>
                                         <option value="sunCareForFace">Sun Care For Face</option>
-                                        <option value="treatments">Treatments</option>        
+                                        <option value="treatments">Treatments</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="openingDate">
-                                        Opened Date: 
+                                        Opened Date:
                                     </label>
                                     <input type="date" id="openingDate" class="form-control">
                                 </div>
@@ -91,7 +110,7 @@
                                     <span>Example</span>
                                     <img src="img/shelfLifeExample.jpg" id="shelfLifeExample" class="mt-3">
                                 </div>
-                                <button  data-dismiss="modal" type="submit" class="btn btn-info">Submit</button>
+                                <button data-dismiss="modal" type="submit" class="btn btn-info">Submit</button>
                             </form>
 
 
@@ -105,14 +124,14 @@
             <div id="itemList">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">The day you opened this item</th>
-                        <th scope="col">Expected expiration date</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">The day you opened this item</th>
+                            <th scope="col">Expected expiration date</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
                     </thead>
                     <tbody id="itemListBody">
                     </tbody>
@@ -128,19 +147,19 @@
                 </div>
                 <div class="form-group">
                     <label for="brand">
-                        Brand: 
+                        Brand:
                     </label>
                     <input type="text" id="brand" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="name">
-                        Item Name: 
+                        Item Name:
                     </label>
                     <input type="text" id="name" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="category">
-                        Category: 
+                        Category:
                     </label>
                     <select class="form-control" id="category">
                         <option id="skincare">Skincare</option>
@@ -152,7 +171,7 @@
                 </div>
                 <div class="form-group">
                     <label for="product_type">
-                        Product Type: 
+                        Product Type:
                     </label>
                     <select class="form-control" id="product_type">
                         <option value="cleansers">Cleansers</option>
@@ -163,12 +182,12 @@
                         <option value="selfTannersForFace">Self Tanners For Face</option>
                         <option value="shaving">Shaving</option>
                         <option value="sunCareForFace">Sun Care For Face</option>
-                        <option value="treatments">Treatments</option>        
+                        <option value="treatments">Treatments</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="openingDate">
-                        Opened Date: 
+                        Opened Date:
                     </label>
                     <input type="date" id="openingDate" class="form-control">
                 </div>
@@ -190,19 +209,19 @@
             </div>
             <div class="form-group">
                 <label for="brand">
-                    Brand: 
+                    Brand:
                 </label>
                 <input type="text" id="brand" class="form-control">
             </div>
             <div class="form-group">
                 <label for="name">
-                    Item Name: 
+                    Item Name:
                 </label>
                 <input type="text" id="name" class="form-control">
             </div>
             <div class="form-group">
                 <label for="category">
-                    Category: 
+                    Category:
                 </label>
                 <select class="form-control" id="category">
                     <option id="skincare">Skincare</option>
@@ -214,7 +233,7 @@
             </div>
             <div class="form-group">
                 <label for="product_type">
-                    Product Type: 
+                    Product Type:
                 </label>
                 <select class="form-control" id="product_type">
                     <option value="cleansers">Cleansers</option>
@@ -225,12 +244,12 @@
                     <option value="selfTannersForFace">Self Tanners For Face</option>
                     <option value="shaving">Shaving</option>
                     <option value="sunCareForFace">Sun Care For Face</option>
-                    <option value="treatments">Treatments</option>        
+                    <option value="treatments">Treatments</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="openingDate">
-                    Opened Date: 
+                    Opened Date:
                 </label>
                 <input type="date" id="openingDate" class="form-control">
             </div>
@@ -246,19 +265,8 @@
         </form>
     </div>
 </body>
-<script src="js/jquery-3.3.1.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCsXeeqQGEXp7WQAB7WU4blJmS0rCIAZaU",
-    authDomain: "makeup-genius-702f9.firebaseapp.com",
-    databaseURL: "https://makeup-genius-702f9.firebaseio.com",
-    projectId: "makeup-genius-702f9",
-    storageBucket: "makeup-genius-702f9.appspot.com",
-    messagingSenderId: "416277350179"
-  };
-  firebase.initializeApp(config);
-</script>
-<script src="js/manageItems.js"></script>
+
+
+
+
 </html>
