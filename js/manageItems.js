@@ -38,10 +38,10 @@ var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTr
 var fragranceOptions = '<option id="forMen" value="forMen">For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>'
 var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody">Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>'
 
-var updateProductTypeList = function() {
-    var selectedOption = $("#category option:selected").attr("id");
+var updateProductTypeList = function(addOrEdit) {
+    var selectedOption = $(".category_"+addOrEdit+" option:selected").attr("id");
     var options;
-    $("#product_type").html("");
+    $(".product_type_"+addOrEdit).html("");
     if (selectedOption === "skincare") {
         options = skincareOptions;
     }
@@ -57,11 +57,15 @@ var updateProductTypeList = function() {
     else {
         options = bathAndBodyOptions;
     }
-    $("#product_type").append(options);
+    $(".product_type_"+addOrEdit).append(options);
 }
 
-$("#category").change(function(){
-    updateProductTypeList();
+$(".category_add").change(function() {
+    updateProductTypeList("add");
+})
+
+$(".category_edit").change(function(){
+    updateProductTypeList("edit");
 });
 
 var writeBrandAndNameReturn = function(arr, i) {
@@ -77,32 +81,33 @@ var writeBrandAndNameReturn = function(arr, i) {
 var editFunctionReturn = function(arr, i) {
     var editFunction = function(arr, i) {
         firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
-            $("#editItem #upc").val(doc['id']);
-            $("#editItem #brand").val(textFormatting(doc.data()['brand']));
-            $("#editItem #name").val(textFormatting(doc.data()['name']));
-            $("#editItem #shelfLife").val(doc.data()['shelfLife']);
+            $(".upc_edit").val(doc['id']);
+            $(".brand_edit").val(textFormatting(doc.data()['brand']));
+            $(".name_edit").val(textFormatting(doc.data()['name']));
+            $(".shelfLife_edit").val(doc.data()['shelfLife']);
 
-            $("#editItem #"+doc.data()['category']['id']).prop("selected", true);
-            updateProductTypeList();
-            $("#editItem #"+doc.data()['product_type']['id']).prop("selected", true);
+            // $("#"+doc.data()['category']['id']).prop("selected", true);
+            $(".category_edit").find("#"+doc.data()['category']['id']).prop("selected", true);
+            updateProductTypeList("edit");
+            $(".product_type_edit").find("#"+doc.data()['product_type']['id']).prop("selected", true);
         }).then(function() {
-            firestore.collection("User").doc(userID).collection("products").doc($("#editItem #upc").val()).get().then(function(doc) {
-                $("#editItem #openingDate").val(dateFormatting(doc.data()['openingDate'].toDate()));
+            firestore.collection("User").doc(userID).collection("products").doc($(".upc_edit").val()).get().then(function(doc) {
+                $(".openingDate_edit").val(dateFormatting(doc.data()['openingDate'].toDate()));
             });
         }).then(function(){
-            $('#editItem #'+arr[i]+' button').first().click(function(){
+            $('#'+arr[i]+' button').first().click(function(){
                 firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
-                    $("#editItem #upc").val(doc['id']);
-                    $("#editItem #brand").val(textFormatting(doc.data()['brand']));
-                    $("#editItem #name").val(textFormatting(doc.data()['name']));
-                    $("#editItem #shelfLife").val(doc.data()['shelfLife']);
+                    $(".upc_edit").val(doc['id']);
+                    $(".brand_edit").val(textFormatting(doc.data()['brand']));
+                    $(".name_edit").val(textFormatting(doc.data()['name']));
+                    $(".shelfLife_edit").val(doc.data()['shelfLife']);
         
-                    $("#editItem #"+doc.data()['category']['id']).prop("selected", true);
-                    updateProductTypeList();
-                    $("#editItem #"+doc.data()['product_type']['id']).prop("selected", true);
+                    $(".category_edit").find("#"+doc.data()['category']['id']).prop("selected", true);
+                    updateProductTypeList("edit");
+                    $(".product_type_edit").find("#"+doc.data()['product_type']['id']).prop("selected", true);
                 }).then(function() {
-                    firestore.collection("User").doc(userID).collection("products").doc($("#editItem #upc").val()).get().then(function(doc) {
-                        $("#editItem #openingDate").val(dateFormatting(doc.data()['openingDate'].toDate()));
+                    firestore.collection("User").doc(userID).collection("products").doc($(".upc_edit").val()).get().then(function(doc) {
+                        $(".openingDate_edit").val(dateFormatting(doc.data()['openingDate'].toDate()));
                     });
                 }).then(function() {
                     $("#editItem").show();
@@ -112,14 +117,14 @@ var editFunctionReturn = function(arr, i) {
 
         $("#editItem").submit(function(event){
             event.preventDefault();
-            var upc = $("#editItem #upc").val();
-            var brand = $("#editItem #brand").val().trim().toLowerCase();
-            var name = $("#editItem #name").val().trim().toLowerCase();
-            var category = $("#editItem #category option:selected").attr("id");
-            var product_type = $("#editItem #product_type option:selected").attr("id");
-            var openingDate = new Date($("#editItem #openingDate").val());
+            var upc = $(".upc_edit").val();
+            var brand = $(".brand_edit").val().trim().toLowerCase();
+            var name = $(".name_edit").val().trim().toLowerCase();
+            var category = $("#category option:selected").attr("id");
+            var product_type = $("#product_type option:selected").attr("id");
+            var openingDate = new Date($(".openingDate_edit").val());
             openingDate.setHours(openingDate.getHours()+(new Date().getTimezoneOffset() / 60));
-            var shelfLife = parseInt($("#editItem #shelfLife").val());
+            var shelfLife = parseInt($(".shelfLife_edit").val());
 
             firestore.collection("Product").doc(upc).update({
                 brand: brand,
