@@ -34,7 +34,8 @@
         <div class="icon-container">
             <img src="img/lady.png" alt="Lady Profile" />
             <h5>
-                <span id="email-display"></span>
+                <span id="email-display"></span><br>
+                Number of items: <span id="item-num-display"></span>
             </h5>
         </div>
         <div class="modal-container">
@@ -197,7 +198,10 @@
             <!--End modal for 'Edit Items'-->
         </div>
         <div class="main-body">
-            <h1>Manage your items here:</h1>
+            <div id="menuBar">
+                <h1>Manage your items here:</h1>
+                <button class="btn btn-info" id="addItemButton" data-toggle="modal" data-target="#addItemModal">Add Item</button>
+            </div>
             <div id="itemList">
                 <table class="table">
                     <thead>
@@ -214,9 +218,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="menuBar" class="d-flex flex-row justify-content-end">
-                <button class="btn btn-info" data-toggle="modal" data-target="#addItemModal">Add Item</button>
-            </div>
+            //
             
         </div>
     </div>

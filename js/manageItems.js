@@ -186,9 +186,6 @@ var dateFormatting = function(date) {
     return newString;
  }
 
-
- 
-
 var userID = "";
 var userEmail ="";
 var displayName ="";
@@ -198,6 +195,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         userID = firebase.auth().currentUser.uid;
         userEmail = firebase.auth().currentUser.email;
         displayName = showEmail(userEmail);
+        // showNumberOfItems();
         $("#email-display").text(displayName);
         
         $(".category_add").change(function() {
@@ -212,9 +210,11 @@ firebase.auth().onAuthStateChanged(function(user) {
             if (doc.exists) {
                 if (doc.data()['productsUPC'][0] === "0") {
                     productsUPC = [];
+                    $("#item-num-display").text("0");
                 }
                 else {
                     productsUPC = doc.data()["productsUPC"];
+                    $("#item-num-display").text(doc.data()["productsUPC"].length);
                 }
             } else {
                 // doc.data() will be undefined in this case
