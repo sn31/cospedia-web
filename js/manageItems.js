@@ -226,7 +226,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             for (var i=0; i<productsUPC.length; i++) {
                 firestore.collection("User").doc(userID).collection("products").doc(productsUPC[i].toString()).get().then(function(doc) {
                     if (doc.exists) {
-                        $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
+                        $("#itemListBody").append('<tr id='+doc.data()["product"]['id']+'><td scope="row">'+doc.data()["product"]['id']+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn" data-toggle="modal" data-target="#editItemModal">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');      
                     }
                 }).then(writeBrandAndNameReturn(productsUPC, i))
                 .then(editFunctionReturn(productsUPC, i))
