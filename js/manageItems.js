@@ -26,11 +26,11 @@ var pushItem = function(arr, item) {
     return arr;
 }
 
-var skincareOptions = '<option id="cleansers" value="cleansers">Cleansers</option><option id="eyeCare" value="eyeCare">Eye Care</option><option id="lipTreatments" value="lipTreatments">Lip Treatments</option><option id="masks" value="masks">Masks</option><option id="moisturizers" value="moisturizers">Moisturizers</option><option id="selfTannersForFace" value="selfTannersForFace">Self Tanners For Face</option><option id="shaving" value="shaving">Shaving</option><option id="sunCareForFace" value="sunCareForFace">Sun Care For Face</option><option id="treatments" value="treatments">Treatments</option>';
-var makeupOptions = '<option id="cheek" value="cheek">Cheek</option><option id="eye" value="eye">Eye</option><option id="face" value="face">Face</option><option id="lip" value="lip">Lip</option>';   
-var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments">Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>'
-var fragranceOptions = '<option id="forMen" value="forMen">For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>'
-var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody">Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>'
+var skincareOptions = '<option id="cleansers" value="cleansers" selected>Cleansers</option><option id="eyeCare" value="eyeCare">Eye Care</option><option id="lipTreatments" value="lipTreatments">Lip Treatments</option><option id="masks" value="masks">Masks</option><option id="moisturizers" value="moisturizers">Moisturizers</option><option id="selfTannersForFace" value="selfTannersForFace">Self Tanners For Face</option><option id="shaving" value="shaving">Shaving</option><option id="sunCareForFace" value="sunCareForFace">Sun Care For Face</option><option id="treatments" value="treatments">Treatments</option>';
+var makeupOptions = '<option id="cheek" value="cheek" selected>Cheek</option><option id="eye" value="eye">Eye</option><option id="face" value="face">Face</option><option id="lip" value="lip">Lip</option>';   
+var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments" selected>Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>'
+var fragranceOptions = '<option id="forMen" value="forMen" selected>For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>'
+var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody" selected>Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>'
 
 var updateProductTypeList = function(addOrEdit) {
     var selectedOption = $(".category_"+addOrEdit+" option:selected").attr("id");
@@ -72,7 +72,6 @@ var editFunctionReturn = function(arr, i) {
             $(".name_edit").val(textFormatting(doc.data()['name']));
             $(".shelfLife_edit").val(doc.data()['shelfLife']);
 
-            // $("#"+doc.data()['category']['id']).prop("selected", true);
             $(".category_edit").find("#"+doc.data()['category']['id']).prop("selected", true);
             updateProductTypeList("edit");
             $(".product_type_edit").find("#"+doc.data()['product_type']['id']).prop("selected", true);
@@ -106,8 +105,8 @@ var editFunctionReturn = function(arr, i) {
             var upc = $(".upc_edit").val();
             var brand = $(".brand_edit").val().trim().toLowerCase();
             var name = $(".name_edit").val().trim().toLowerCase();
-            var category = $("#category option:selected").attr("id");
-            var product_type = $("#product_type option:selected").attr("id");
+            var category = $(".category_edit option:selected").attr("id");
+            var product_type = $(".product_type_edit option:selected").attr("id");
             var openingDate = new Date($(".openingDate_edit").val());
             openingDate.setHours(openingDate.getHours()+(new Date().getTimezoneOffset() / 60));
             var shelfLife = parseInt($(".shelfLife_edit").val());
@@ -154,7 +153,6 @@ var deleteFunctionReturn = function(arr, i) {
             $('#'+doc['id']+' button').last().click(function(){
                 firestore.collection("User").doc(userID).collection("products").doc(doc['id']).delete().then(function() {     
                     console.log("Document successfully deleted!");
-                    // window.location.reload(true);
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
                 }).then(deleteProductsUPCReturn(arr, i));;
@@ -245,6 +243,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             var product_type = $(".product_type_add option:selected").attr("id");
             var openingDate = new Date($(".openingDate_add").val());
             var shelfLife = parseInt($(".shelfLife_add").val());
+
             //search existing db with upc
             firestore.collection("Product").doc(upc).get().then(function(doc){
                 if (!doc.exists) {
