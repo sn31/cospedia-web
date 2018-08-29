@@ -16,13 +16,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ## Current Features
 
 * Users can add/remove/edit products to/from their personal bag.
-* The expiration dates of products are tracked on a graph.
-* A monthly summary will be sent to each user with remainders of upcoming expirations.
+* Calculates recommended expiration dates based on their opened date.
 
 ## Future Features
 
-* Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
-* Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
+* User can scan a product barcode in order to add a product to the app.
+* The expiration dates of products are tracked on a graph.
+* A monthly summary will be sent to each user with remainders of upcoming expirations.
+* User gets an email notification and a push alert certain days before the expiration date.
+* User can customize expiration notification timing.
 
 ## Setup/Installation Requirements
 
@@ -56,7 +58,8 @@ Please contact us at support@cospedia.com for more information and/or feedback.
 * jQuery v3.3.1    
 * Git
 * GitHub
-* Firebase
+* Firebase Authentication
+* Firebase Firestore DB
 
 ## Link to GitHub Pages
 
