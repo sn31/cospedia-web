@@ -171,7 +171,7 @@ label{
 }
 
 .about-container img {
-  width: 18%;
+  width: 20%;
   margin: 25px;
   float: left;
   border-radius: 25%;
@@ -179,10 +179,10 @@ label{
 }
 
 .features-container img {
-  width: 20%;
-  margin-right: 7%;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  width: 23%;
+  margin-right: 5%;
+  margin-top: 45px;
+  margin-bottom: 45px;
   float: right;
   border-radius: 25%;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
