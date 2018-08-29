@@ -242,6 +242,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             var category = $(".category_add option:selected").attr("id");
             var product_type = $(".product_type_add option:selected").attr("id");
             var openingDate = new Date($(".openingDate_add").val());
+            openingDate.setHours(openingDate.getHours()+(new Date().getTimezoneOffset() / 60));
             var shelfLife = parseInt($(".shelfLife_add").val());
 
             //search existing db with upc
