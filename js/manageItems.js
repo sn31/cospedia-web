@@ -60,14 +60,6 @@ var updateProductTypeList = function(addOrEdit) {
     $(".product_type_"+addOrEdit).append(options);
 }
 
-$(".category_add").change(function() {
-    updateProductTypeList("add");
-})
-
-$(".category_edit").change(function(){
-    updateProductTypeList("edit");
-});
-
 var writeBrandAndNameReturn = function(arr, i) {
     var writeBrandAndName = function(arr, i) {
         firestore.collection("Product").doc(arr[i].toString()).get().then(function(doc) {
@@ -201,6 +193,14 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         authdata = user;
         userID = firebase.auth().currentUser.uid;
+
+        $(".category_add").change(function() {
+            updateProductTypeList("add");
+        });
+        
+        $(".category_edit").change(function(){
+            updateProductTypeList("edit");
+        });
 
         firestore.collection("User").doc(userID).get().then(function(doc) {
             if (doc.exists) {
