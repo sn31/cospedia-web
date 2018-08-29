@@ -20,11 +20,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Future Features
 
-* User can scan a product barcode in order to add a product to the app.
+* User can scan a product barcode in order to add a product to the database.
 * The expiration dates of products are tracked on a graph.
-* A monthly summary will be sent to each user with remainders of upcoming expirations.
-* User gets an email notification and a push alert certain days before the expiration date.
-* User can customize expiration notification timing.
+* A summary will be sent to each user with remainders of upcoming expirations.
+* User can customize expiration summary timing.
 
 ## Setup/Installation Requirements
 
@@ -42,7 +41,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Known Bugs
 
-None known in this version.
+* Color of "edit" item button is rendered differently in Mac OS.
 
 ## Support and contact details
 
