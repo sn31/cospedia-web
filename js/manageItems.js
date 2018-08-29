@@ -9,6 +9,7 @@ $("#backToHomePage").click(function() {
     window.location.href = './index.html' 
 })
 
+
 var productsUPC;
 
 var firstLetterUpper = function(text) {
