@@ -4,12 +4,6 @@ const firestore = firebase.firestore();
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 firestore.settings(settings);
 
-//Back to homepage button
-$("#backToHomePage").click(function() {
-    window.location.href = './index.html' 
-})
-
-
 var productsUPC;
 
 var firstLetterUpper = function(text) {
@@ -290,8 +284,26 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
 });
 
+//Sign Out Function
+var signOut = function () {
+    firebase.auth().signOut().then(function () {
+      alert("You have signed out successfully!")
+    }).catch(function (err) {
+      alert("Unable to sign out!")
+    })
+  };
+  
+//Back to homepage button
+$(document).ready(function() {
+    $("#backToHomePage").click(function() {
+        window.location.href = './index.html';
+    })
+    $("#signOutButton").click(function () {
+        signOut();
+        window.location.href = './index.html';
+      })
+})
 
-   
 //  //user email
 //  var userEmail = firebase.auth().currentUser.email;
 
