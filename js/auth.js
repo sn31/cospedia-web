@@ -19,26 +19,21 @@ function User(email, password) {
   this.email = email;
   this.password = password;
 }
-var userIDdata = { productsUPC: ["0"] }
-var productFields = { expirationDate: "", openingDate: "", product: "" }
+var userIDdata = { empty: true };
+var productFields = { expirationDate: "", openingDate: "", product: "" };
 
 User.prototype.signUp = function () {
-
   firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function () {
     alert("You have signed up successfully!")
     $("#signUpClose").click();
     var currentUID = firebase.auth().currentUser.uid;
     firestore.collection("User").doc(currentUID).set(userIDdata);
-    for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-      firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-    }
   })
-    .catch(function (err) {
-      alert("Unable to sign up. Please try again!")
-    })
-}
-var userIDdata = { productsUPC: ["0"] }
-var productFields = { expirationDate: "", openingDate: "", product: "" }
+  .catch(function (err) {
+    alert("Unable to sign up. Please try again!")
+  });
+};
+
 User.prototype.signIn = function () {
   var self = this;
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -47,17 +42,12 @@ User.prototype.signIn = function () {
         $("#signInClose").click();
         var currentUID = firebase.auth().currentUser.uid;
         // Only create a new UserID document for new users
-        var userRef = firestore.collection("User").doc(currentUID);
-        var getDoc = userRef.get()
-          .then(doc => {
-            if (!doc.exists) {
-              firestore.collection("User").doc(currentUID).set(userIDdata);
-              for (var i = 0; i < userIDdata.productsUPC.length; i++) {
-                firestore.collection("User").doc(currentUID).collection("products").doc(userIDdata.productsUPC[i]).set(productFields);
-              }
-            }
-          })
-      })
+        firestore.collection("User").doc(currentUID).get().then(doc => {
+          if (!doc.exists) {
+            firestore.collection("User").doc(currentUID).set(userIDdata);
+          }
+        });
+      });
     })
     .catch(function (error) {
       var errorCode = error.code;
@@ -67,7 +57,7 @@ User.prototype.signIn = function () {
       } else {
         alert(errorMessage);
       }
-    })
+    });
 };
 
 var signOut = function () {
@@ -75,9 +65,8 @@ var signOut = function () {
     alert("You have signed out successfully!")
   }).catch(function (err) {
     alert("Unable to sign out!")
-  })
+  });
 };
-
 
 User.prototype.resetPassword = function () {
   firebase.auth().sendPasswordResetEmail(this.email).then(function () {
@@ -85,8 +74,9 @@ User.prototype.resetPassword = function () {
     alert("An email has been sent to you!");
   }).catch(function (err) {
     alert("Unable to reset password!")
-  })
-}
+  });
+};
+
 $(document).ready(function () {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -98,6 +88,7 @@ $(document).ready(function () {
       $("#public").show();
     }
   });
+
   $("#signUp").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSU").val();
@@ -108,21 +99,20 @@ $(document).ready(function () {
     }
     else { var newUser = new User(email, password) };
     newUser.signUp();
-  })
+  });
+
   $("#signIn").submit(function (event) {
     event.preventDefault();
     var email = $("#emailSI").val();
     var password = $("#passwordSI").val();
     var newUser = new User(email, password);
-
     newUser.signIn();
-
-  })
+  });
 
   // Forgot password
   $("#forgotPasswordButton").click(function () {
     $("#signInModal").modal('hide');
-  })
+  });
 
   // Reset password
   $("#forgotPassword").submit(function (event) {
@@ -130,10 +120,9 @@ $(document).ready(function () {
     var email = $("#emailFP").val();
     var newUser = new User(email);
     newUser.resetPassword();
-  })
+  });
 
   $("#signOutButton").click(function () {
     signOut();
-  })
-
-})
+  });
+});

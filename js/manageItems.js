@@ -1,14 +1,8 @@
-// Initialize Cloud Firestore through Firebase
-
-const firestore = firebase.firestore();
-const settings = {/* your settings... */ timestampsInSnapshots: true};
-firestore.settings(settings);
-
 var productsUPC;
 
 var firstLetterUpper = function(text) {
     return text.substring(0, 1).toUpperCase()+text.substring(1, text.length);
-}
+};
 
 var textFormatting = function(text) {
     var textArr = text.toLowerCase().split(" ");
@@ -16,13 +10,13 @@ var textFormatting = function(text) {
         return firstLetterUpper(text);
     });
     return textArr.join(" ");
-}
+};
 
 var skincareOptions = '<option id="cleansers" value="cleansers" selected>Cleansers</option><option id="eyeCare" value="eyeCare">Eye Care</option><option id="lipTreatments" value="lipTreatments">Lip Treatments</option><option id="masks" value="masks">Masks</option><option id="moisturizers" value="moisturizers">Moisturizers</option><option id="selfTannersForFace" value="selfTannersForFace">Self Tanners For Face</option><option id="shaving" value="shaving">Shaving</option><option id="sunCareForFace" value="sunCareForFace">Sun Care For Face</option><option id="treatments" value="treatments">Treatments</option>';
 var makeupOptions = '<option id="cheek" value="cheek" selected>Cheek</option><option id="eye" value="eye">Eye</option><option id="face" value="face">Face</option><option id="lip" value="lip">Lip</option>';   
-var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments" selected>Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>'
-var fragranceOptions = '<option id="forMen" value="forMen" selected>For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>'
-var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody" selected>Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>'
+var hairOptions = '<option id="hairStylingAndTreatments" value="hairStylingAndTreatments" selected>Hair Styling and Treatments</option><option id="shampooAndConditioner" value="shampooAndConditioner">Shampoo And Conditioner</option>';
+var fragranceOptions = '<option id="forMen" value="forMen" selected>For men</option><option id="forWomen" value="forWomen">For women</option><option id="unisex" value="unisex">Unisex</option>';
+var bathAndBodyOptions = '<option id="selfTannersForBody" value="selfTannersForBody" selected>Self Tanners For Body</option><option id="sunCareForBody" value="sunCareForBody">Sun Care For Body</option>';
 
 var updateProductTypeList = function(addOrEdit) {
     var selectedOption = $(".category_"+addOrEdit+" option:selected").attr("id");
@@ -44,7 +38,7 @@ var updateProductTypeList = function(addOrEdit) {
         options = bathAndBodyOptions;
     }
     $(".product_type_"+addOrEdit).append(options);
-}
+};
 
 var writeBrandAndNameReturn = function(id) {
     var writeBrandAndName = function(id) {
@@ -54,7 +48,7 @@ var writeBrandAndNameReturn = function(id) {
         });
     };
     return writeBrandAndName(id);
-}
+};
 
 var editFunctionReturn = function(id) {
     var editFunction = function(id) {
@@ -110,10 +104,18 @@ var editFunctionReturn = function(id) {
 
 var deleteFunctionReturn = function(id) {
     var deleteFunction = function(id) {
-        firestore.collection("Product").doc(id).get().then(function(doc) {
-            $('#'+doc.id).find(".delete.btn").click(function(){
+        $('#'+id).find(".delete.btn").click(function() {
+            var setEmpty = false;
+            firestore.collection("User").doc(userID).collection("products").get().then(function(querySnapshot) {
+                if (querySnapshot.size === 1) {
+                    setEmpty = true; 
+                }
+            }).then(function() {
                 firestore.collection("User").doc(userID).collection("products").doc(id).delete().then(function() {     
                     console.log("Document successfully deleted!");
+                    if (setEmpty === true) {
+                        firestore.collection("User").doc(userID).set({ empty: true });
+                    }
                     window.location.reload(true);
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
@@ -122,7 +124,7 @@ var deleteFunctionReturn = function(id) {
         });
     };
     return deleteFunction(id);
-}
+};
 
 var twoDigits = function(num) {
     num = num.toString();
@@ -130,7 +132,7 @@ var twoDigits = function(num) {
         num = "0"+num;
     }
     return num;
-}
+};
 
 var dateFormatting = function(date) {
     var year = date.getFullYear();
@@ -144,7 +146,7 @@ var dateFormatting = function(date) {
     var indexNumber = string.indexOf("@");
     var newString = string.slice(0, indexNumber);
     return newString;
- }
+ };
 
 var userID = "";
 var userEmail ="";
@@ -211,13 +213,16 @@ firebase.auth().onAuthStateChanged(function(user) {
             }).then(function(){
                 firestore.collection("User").doc(userID).get().then(function(doc){
                     if (doc.exists) {
-                        firestore.collection("User").doc(userID).collection("products").doc("0").delete().then(function(){
-                            console.log("delete placeholder doc in User:products");
-                            firestore.collection("User").doc(userID).collection("products").doc(upc).set({
-                                openingDate: new Date(openingDate),
-                                expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife)),
-                                product: firestore.collection("Product").doc(upc),
+                        if (doc.data()["empty"] === true) {
+                            firestore.collection("User").doc(userID).update({
+                                empty: false
                             });
+                        }
+                        firestore.collection("User").doc(userID).collection("products").doc(upc).set({
+                            openingDate: new Date(openingDate),
+                            expirationDate: new Date(openingDate.setMonth(openingDate.getMonth()+shelfLife)),
+                            product: firestore.collection("Product").doc(upc),
+                        }).then(function(){
                             console.log("Products add product success");
                             window.location.href = "manageItems.html";
                         });
@@ -237,20 +242,20 @@ firebase.auth().onAuthStateChanged(function(user) {
 //Sign Out Function
 var signOut = function () {
     firebase.auth().signOut().then(function () {
-      alert("You have signed out successfully!")
+      alert("You have signed out successfully!");
     }).catch(function (err) {
-      alert("Unable to sign out!")
-    })
-  };
+      alert("Unable to sign out!");
+    });
+};
   
 //Back to homepage button
 $(document).ready(function() {
     $("#backToHomePage").click(function() {
         window.location.href = './index.html';
-    })
+    });
     $("#signOutButton").click(function () {
         signOut();
         window.location.href = './index.html';
-      })
-})
+    });
+});
 
