@@ -48,6 +48,16 @@ var writeBrandAndNameReturn = function(id) {
     return writeBrandAndName(id);
 };
 
+var itemInputFieldReset = function(addOrEdit) {
+    $(".upc_"+addOrEdit).val("");
+    $(".brand_"+addOrEdit).val("");
+    $(".name_"+addOrEdit).val("");
+    $(".category_"+addOrEdit).find("#skincare").prop("selected", true);
+    updateProductTypeList(addOrEdit);
+    $(".product_type_"+addOrEdit).find("#cleansers").prop("selected", true);
+    $(".shelfLife_"+addOrEdit).val(0);
+};
+
 var editFunctionReturn = function(id) {
     var editFunction = function(id) {
         $('#'+id).find(".edit.btn").click(function(){
@@ -149,6 +159,7 @@ var dateFormatting = function(date) {
 var userID = "";
 var userEmail ="";
 var displayName ="";
+
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         authdata = user;
@@ -172,11 +183,33 @@ firebase.auth().onAuthStateChanged(function(user) {
         }).catch(function(error) {
             console.log("Error getting document:", error);
         }).then(function() {
-            snapshot.forEach(function(doc, i, arr) {
+            snapshot.forEach(function(doc) {
                 $("#itemListBody").append('<tr id='+doc.id+'><td scope="row">'+doc.id+'</td><td><span class="itemTitleLink"></span></td><td>'+dateFormatting(doc.data()['openingDate'].toDate())+'</td><td>'+dateFormatting(doc.data()['expirationDate'].toDate())+'</td><td><button class="edit btn" data-toggle="modal" data-target="#editItemModal">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
                 writeBrandAndNameReturn(doc.id);
                 editFunctionReturn(doc.id);
                 deleteFunctionReturn(doc.id);
+            });
+        });
+
+        $("#addItemButton").click(function() {
+            itemInputFieldReset("add");
+            var items = {};
+            firestore.collection("Product").get().then(function(querySnapshot){
+                querySnapshot.forEach(function(doc) {
+                    items[doc.id] = doc.data();
+                });
+            }).then(function(){
+                $(".upc_add").change(function(){
+                    var upc = $(".upc_add").val();
+                    if (upc in items) {
+                        $(".brand_add").val(items[upc]["brand"]);
+                        $(".name_add").val(items[upc]["name"]);
+                        $(".category_add").find("#"+items[upc]['category']['id']).prop("selected", true);
+                        updateProductTypeList("add");
+                        $(".product_type_add").find("#"+items[upc]['product_type']['id']).prop("selected", true);
+                        $(".shelfLife_add").val(items[upc]["shelfLife"]);
+                    }
+                });
             });
         });
 
